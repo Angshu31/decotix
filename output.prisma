@@ -1,0 +1,12 @@
+model User {
+  id        String  @id
+  age       Float?
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId String
+}
+
+model Profile {
+  id       String @id
+  user     User?
+  username String
+}
