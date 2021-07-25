@@ -6,7 +6,7 @@ export type _DirectiveMetadata = {
   extraData?: { type?: string };
 };
 
-export function Directive(str: string, extraData?: any): PropertyDecorator {
+export function Directive(str: string, extraData: any = {}): PropertyDecorator {
   return (target, field) => {
     Reflect.defineMetadata(
       _directiveKey,
