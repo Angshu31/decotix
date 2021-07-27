@@ -1,38 +1,10 @@
-import { Model, Property, Relation, ID } from ".";
-import { modelToString } from "./lib/modelToString";
+import { join } from "path";
+import { buildSchema } from ".";
 
-@Model()
-class User {
-  @Property()
-  @ID()
-  id: string;
-
-  @Property({ nullable: true })
-  age: number;
-
-  @Relation({ fields: ["profileId"], references: ["id"] })
-  @Property(() => Profile)
-  profile: any;
-}
-
-@Model()
-class Profile {
-  @Property()
-  @ID()
-  id: string;
-
-  @Property(() => User, { nullable: true })
-  user?: User;
-
-  @Property()
-  username: string;
-}
-
-it("generates model string", () => {
-  const str =
-    modelToString(User, { autoInsertDefaultId: "autoincrement()" }) +
-    "\n\n" +
-    modelToString(Profile);
+it("generates model string", async () => {
+  const str = await buildSchema({
+    input: [join(__dirname, "test-dir/**/*")],
+  });
 
   console.log(str);
 

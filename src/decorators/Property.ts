@@ -4,17 +4,19 @@ export const _propKey = Symbol("prisma-model-props");
 
 export type PropertyOptions = { nullable?: boolean };
 
+export type GetType = () => Function | object;
+
 export type _PropertyMetadata = {
   name: string;
   nullable: boolean;
-  getType: () => Function;
+  getType: GetType;
 };
 
 export function Property(): PropertyDecorator;
-export function Property(getType: () => Function): PropertyDecorator;
+export function Property(getType: GetType): PropertyDecorator;
 export function Property(options: PropertyOptions): PropertyDecorator;
 export function Property(
-  getType: () => Function,
+  getType: GetType,
   options: PropertyOptions
 ): PropertyDecorator;
 export function Property(...args: any[]) {

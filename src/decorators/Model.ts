@@ -1,7 +1,8 @@
-export const _modelKey = Symbol("prisma-model");
+import { applySignature } from "../lib/signatures";
 
 export const Model =
   (name?: string): ClassDecorator =>
   (target) => {
-    Reflect.defineMetadata(_modelKey, name ?? target.name, target);
+    const realname = name ?? target.name;
+    applySignature(target, "model", { name: realname });
   };

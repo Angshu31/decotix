@@ -3,6 +3,11 @@ import { Directive } from "./Directive";
 
 export const _relationKey = Symbol("prisma-relation");
 
+export type _RelationMetadata = {
+  type: "relation";
+  args: any[];
+};
+
 type FieldsReferencesData = {
   fields: string[];
   references: string[];
@@ -27,6 +32,7 @@ export function Relation(...args: any[]): PropertyDecorator {
               .map(([key, val]) => `${key}: [${(val as string[]).join(", ")}]`)
               .join(", ")
       )
-      .join(", ")})`
+      .join(", ")})`,
+    { type: "relation", args }
   );
 }

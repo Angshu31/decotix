@@ -1,40 +1,18 @@
-import { DefaultDirectiveType } from "../decorators/directives/Default";
+import { _RelationMetadata } from "..";
 import {
   _directiveKey,
   _DirectiveMetadata,
 } from "../decorators/directives/Directive";
-import { _modelKey } from "../decorators/Model";
 import { _PropertyMetadata, _propKey } from "../decorators/Property";
-
-export type ModelToStringConfig = {
-  /**
-   * Automatically adds the id field of a relation
-   *
-   * @example
-   
-  ```prisma
-  model User {
-    // ...
-    profile   Profile \@relation(fields: [profileId], references: [id])
-  
-    // This `profileId` is auto-generated because of the `fields: [profileId]` above in the relation
-    profileId String
-  }
-  ```
-   */
-  autoInsertRelationalFields?: boolean;
-  /**
-   * Automatically inserts a `@default` directive on IDs if absent
-   *
-   */
-  autoInsertDefaultId?: DefaultDirectiveType;
-};
+import { BuildSchemaOptions } from "./BuildSchemaOptions";
+import { getSignature } from "./signatures";
 
 export const modelToString = (
   ModelClass: { new (...args: any[]): any },
-  config: ModelToStringConfig = {}
+  config: Partial<BuildSchemaOptions> = {}
 ) => {
-  const modelName = Reflect.getMetadata(_modelKey, ModelClass);
+  const modelSig = getSignature(ModelClass);
+  const modelName = modelSig?.extraData?.name;
 
   const instance = new ModelClass();
 
@@ -44,20 +22,25 @@ export const modelToString = (
   const directives: _DirectiveMetadata[] =
     Reflect.getMetadata(_directiveKey, instance) ?? [];
 
+  let hasIdField: boolean = false;
+
   // Stores all the lines
   const result: string[] = [`model ${modelName} {`];
 
   for (const { name, nullable, getType } of props) {
-    const typeClass = getType();
+    const typeClass = getType() as Function;
 
     const fieldDirectives = directives.filter(
       (directive) => directive.field === name
     );
 
+    if (!hasIdField && fieldDirectives.find((x) => x.extraData.type === "id"))
+      hasIdField = true;
+
     if (config.autoInsertDefaultId) {
       // The field must have an id, if there is no default field, we'll add one
 
-      let idField,
+      let idField: string,
         hasDefault = false;
       for (const x of fieldDirectives) {
         if (x.extraData.type === "id") idField = x.field;
@@ -78,50 +61,60 @@ export const modelToString = (
 
     // Adds the line of prisma code for the field
     result.push(
-      `  ${name} ${
-        Reflect.getMetadata(_modelKey, typeClass) || typeClass.name
-      }${nullable ? "?" : ""} ${fieldDirectives.map((x) => x.str).join(" ")}`
+      `  ${name} ${getSignature(typeClass)?.extraData.name || typeClass.name}${
+        nullable ? "?" : ""
+      } ${fieldDirectives.map((x) => x.str).join(" ")}`
     );
 
     // By default, option is true
     if (config.autoInsertRelationalFields ?? true) {
-      const { str } =
-        fieldDirectives.find((a) => a.extraData.type === "relation") || {};
+      const directive = fieldDirectives.find(
+        (x) => x.extraData.type === "relation"
+      );
 
-      if (!str || !str.includes("fields: [")) continue;
+      const fieldName = (directive?.extraData as _RelationMetadata)?.args.find(
+        (x) => typeof x === "object"
+      )?.fields?.[0];
 
-      let fieldStr = str.slice(str.indexOf("fields: [") + 9);
-      fieldStr = fieldStr.slice(0, fieldStr.indexOf("],"));
+      if (!fieldName) continue;
 
-      if (props.find((x) => x.name === fieldStr)) continue;
-
-      // Find the type of the id
-
-      const targetInstance = new (typeClass as any)();
-
-      // Directives and Props of the target `typeClass`
-      const targetDirectives: _DirectiveMetadata[] =
-        Reflect.getMetadata(_directiveKey, targetInstance) ?? [];
+      const target = new (typeClass as any)();
 
       const targetProps: _PropertyMetadata[] =
-        Reflect.getMetadata(_propKey, targetInstance) ?? [];
+        Reflect.getMetadata(_propKey, target) ?? [];
 
-      // The field that has the `@id` directive
-      const idField = targetDirectives.find(
+      const targetDirectives: _DirectiveMetadata[] =
+        Reflect.getMetadata(_directiveKey, target) ?? [];
+
+      const idDirective = targetDirectives.find(
         (x) => x.extraData.type === "id"
-      )?.field;
-
-      // The given type of the idField
-      const idType = targetProps.find((x) => x.name === idField)?.getType();
-
-      // Append the new field to the results
-      result.push(
-        `  ${fieldStr} ${Reflect.getMetadata(_modelKey, idType) || idType.name}`
       );
+
+      if (!idDirective) {
+        throw new Error(`Model ${typeClass.name} does not have a id field`);
+      }
+
+      const idFieldName = idDirective.field;
+      const idType = targetProps.find((x) => x.name === idFieldName).getType();
+
+      result.push(`  ${fieldName} ${getTypeName(idType)}`);
     }
+  }
+
+  if (!hasIdField) {
+    throw new Error(`Model ${ModelClass} does not have an id field`);
   }
 
   result.push("}");
 
-  return result.join("\n");
+  const schema = result.join("\n");
+
+  return schema;
+};
+
+const getTypeName = (x: Function | object) => {
+  const sig = getSignature(x);
+  return typeof x === "function"
+    ? sig?.extraData?.name || x.name
+    : sig.extraData.name;
 };
