@@ -12,12 +12,16 @@ model Profile {
   id       String @id
   user     User?
   username String
+
 }
 
 model User {
-  id        String  @id
+  id        String
+  id2       String
   age       Float?
   profile   Profile @relation(fields: [profileId], references: [id])
   profileId String
   favFood   FavFood
+
+  @@id([id, id2])
 }

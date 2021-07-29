@@ -3,6 +3,10 @@ import {
   _attributeKey,
   _AttributeMetadata,
 } from "../decorators/attributes/Attribute";
+import {
+  _blockAttributeKey,
+  _BlockAttributeMetadata,
+} from "../decorators/attributes/blocks/BlockAttribute";
 import { _PropertyMetadata, _propKey } from "../decorators/Property";
 import { BuildSchemaOptions } from "./BuildSchemaOptions";
 import { getSignature } from "./signatures";
@@ -21,6 +25,9 @@ export const modelToString = (
 
   const attributes: _AttributeMetadata[] =
     Reflect.getMetadata(_attributeKey, instance) ?? [];
+
+  const blockAttributes: _BlockAttributeMetadata[] =
+    Reflect.getMetadata(_blockAttributeKey, ModelClass) ?? [];
 
   let hasIdField: boolean = false;
 
@@ -105,6 +112,21 @@ export const modelToString = (
 
       result.push(`  ${fieldName} ${getTypeName(idType)}`);
     }
+  }
+
+  result.push("");
+
+  console.log(blockAttributes, attributes);
+
+  for (const blockAttr of blockAttributes) {
+    if (
+      !hasIdField &&
+      (blockAttr.extraData.type === "composite-id" ||
+        blockAttr.extraData.type === "unique")
+    )
+      hasIdField = true;
+
+    result.push(blockAttr.str);
   }
 
   if (!hasIdField) {
