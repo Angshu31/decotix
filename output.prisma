@@ -1,12 +1,23 @@
-model User {
-  id        String  @id
-  age       Float?
-  profile   Profile @relation(fields: [profileId], references: [id])
-  profileId String
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum FavFood {
+  banana
+  apple
 }
 
 model Profile {
   id       String @id
   user     User?
   username String
+}
+
+model User {
+  id        String  @id
+  age       Float?
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId String
+  favFood   FavFood
 }

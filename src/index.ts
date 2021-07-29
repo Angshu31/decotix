@@ -8,7 +8,7 @@ export * from "./lib/enum";
 
 export * from "./decorators/Model";
 export * from "./decorators/Property";
-export * from "./decorators/directives/Directive";
-export * from "./decorators/directives/Relation";
-export * from "./decorators/directives/ID";
-export * from "./decorators/directives/Default";
+export * from "./decorators/attributes/Attribute";
+export * from "./decorators/attributes/Relation";
+export * from "./decorators/attributes/ID";
+export * from "./decorators/attributes/Default";

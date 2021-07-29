@@ -1,8 +1,8 @@
 import { _RelationMetadata } from "..";
 import {
-  _directiveKey,
-  _DirectiveMetadata,
-} from "../decorators/directives/Directive";
+  _attributeKey,
+  _AttributeMetadata,
+} from "../decorators/attributes/Attribute";
 import { _PropertyMetadata, _propKey } from "../decorators/Property";
 import { BuildSchemaOptions } from "./BuildSchemaOptions";
 import { getSignature } from "./signatures";
@@ -19,8 +19,8 @@ export const modelToString = (
   const props: _PropertyMetadata[] =
     Reflect.getMetadata(_propKey, instance) ?? [];
 
-  const directives: _DirectiveMetadata[] =
-    Reflect.getMetadata(_directiveKey, instance) ?? [];
+  const attributes: _AttributeMetadata[] =
+    Reflect.getMetadata(_attributeKey, instance) ?? [];
 
   let hasIdField: boolean = false;
 
@@ -30,49 +30,55 @@ export const modelToString = (
   for (const { name, nullable, getType } of props) {
     const typeClass = getType() as Function;
 
-    const fieldDirectives = directives.filter(
-      (directive) => directive.field === name
+    const fieldAttributes = attributes.filter(
+      (attribute) => attribute.field === name
     );
 
-    if (!hasIdField && fieldDirectives.find((x) => x.extraData.type === "id"))
+    if (
+      !hasIdField &&
+      fieldAttributes.find(
+        (x) => x.extraData.type === "id" || x.extraData.type === "unique"
+      )
+    )
       hasIdField = true;
 
     if (config.autoInsertDefaultId) {
-      // The field must have an id, if there is no default field, we'll add one
+      // The field must have a unique or id field, if there is no default field, we'll add one
 
       let idField: string,
         hasDefault = false;
-      for (const x of fieldDirectives) {
-        if (x.extraData.type === "id") idField = x.field;
+      for (const x of fieldAttributes) {
+        if (x.extraData.type === "id" || x.extraData.type === "unique")
+          idField = x.field;
         if (x.extraData.type === "default") hasDefault = true;
       }
 
       if (!idField || hasDefault) continue;
 
-      const newDirective = {
+      const newAttribute = {
         field: idField,
         str: `@default(${config.autoInsertDefaultId})`,
         extraData: { type: "default" },
       };
 
-      directives.push(newDirective);
-      fieldDirectives.push(newDirective);
+      attributes.push(newAttribute);
+      fieldAttributes.push(newAttribute);
     }
 
     // Adds the line of prisma code for the field
     result.push(
       `  ${name} ${getSignature(typeClass)?.extraData.name || typeClass.name}${
         nullable ? "?" : ""
-      } ${fieldDirectives.map((x) => x.str).join(" ")}`
+      } ${fieldAttributes.map((x) => x.str).join(" ")}`
     );
 
     // By default, option is true
     if (config.autoInsertRelationalFields ?? true) {
-      const directive = fieldDirectives.find(
+      const attribute = fieldAttributes.find(
         (x) => x.extraData.type === "relation"
       );
 
-      const fieldName = (directive?.extraData as _RelationMetadata)?.args.find(
+      const fieldName = (attribute?.extraData as _RelationMetadata)?.args.find(
         (x) => typeof x === "object"
       )?.fields?.[0];
 
@@ -83,18 +89,18 @@ export const modelToString = (
       const targetProps: _PropertyMetadata[] =
         Reflect.getMetadata(_propKey, target) ?? [];
 
-      const targetDirectives: _DirectiveMetadata[] =
-        Reflect.getMetadata(_directiveKey, target) ?? [];
+      const targetAttributes: _AttributeMetadata[] =
+        Reflect.getMetadata(_attributeKey, target) ?? [];
 
-      const idDirective = targetDirectives.find(
+      const idAttribute = targetAttributes.find(
         (x) => x.extraData.type === "id"
       );
 
-      if (!idDirective) {
+      if (!idAttribute) {
         throw new Error(`Model ${typeClass.name} does not have a id field`);
       }
 
-      const idFieldName = idDirective.field;
+      const idFieldName = idAttribute.field;
       const idType = targetProps.find((x) => x.name === idFieldName).getType();
 
       result.push(`  ${fieldName} ${getTypeName(idType)}`);

@@ -1,4 +1,4 @@
-import { DefaultDirectiveType } from "../decorators/directives/Default";
+import { DefaultAttributeType } from "../decorators/attributes/Default";
 
 export type BuildSchemaOptions = {
   /**
@@ -34,13 +34,13 @@ export type BuildSchemaOptions = {
    */
   autoInsertRelationalFields?: boolean;
   /**
-   * Automatically inserts a `@default` directive on IDs if absent
-   * The value for this option should be what goes inside the `@default()` directive (e.g. `@default(autoincrement())`)
+   * Automatically inserts a `@default` attribute on IDs if absent
+   * The value for this option should be what goes inside the `@default()` attribute (e.g. `@default(autoincrement())`)
    *
    * NOTE: `()` is not always added to your value by default. Only `autoincrement` and `uuid` are changed to `autoincrement()` and `uuid()`.
    * ***This means that `someOtherPrismaFunction` will not be converted to `someOtherPrismaFunction()`***
    */
-  autoInsertDefaultId?: DefaultDirectiveType;
+  autoInsertDefaultId?: DefaultAttributeType;
   /**
    * Prettify the generated prisma code
    */
