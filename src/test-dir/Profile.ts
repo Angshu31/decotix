@@ -1,4 +1,4 @@
-import { ID, Model, Property } from "..";
+import { ID, Model, Property, Relation } from "..";
 import User from "./User";
 
 @Model()
@@ -7,9 +7,7 @@ export class Profile {
   @ID()
   id: string;
 
-  @Property(() => User, { nullable: true })
-  user?: User;
-
-  @Property()
-  username: string;
+  @Relation({ fields: ["userId1", "userId2"], references: ["id", "id2"] })
+  @Property(() => User)
+  user: User;
 }

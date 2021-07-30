@@ -85,43 +85,63 @@ export const modelToString = (
         (x) => x.extraData.type === "relation"
       );
 
-      const fieldName = (attribute?.extraData as _RelationMetadata)?.args.find(
-        (x) => typeof x === "object"
-      )?.fields?.[0];
+      const { fields, references } =
+        (attribute?.extraData as _RelationMetadata)?.args.find(
+          (x) => typeof x === "object"
+        ) || {};
 
-      if (!fieldName) continue;
+      if (!fields) continue;
 
-      const target = new (typeClass as any)();
+      for (let i = 0; i < fields.length; i++) {
+        const fieldName = fields[i];
+        const target = new (typeClass as any)();
 
-      const targetProps: _PropertyMetadata[] =
-        Reflect.getMetadata(_propKey, target) ?? [];
+        const targetProps: _PropertyMetadata[] =
+          Reflect.getMetadata(_propKey, target) ?? [];
 
-      const targetAttributes: _AttributeMetadata[] =
-        Reflect.getMetadata(_attributeKey, target) ?? [];
+        const targetAttributes: _AttributeMetadata[] =
+          Reflect.getMetadata(_attributeKey, target) ?? [];
 
-      const idAttribute = targetAttributes.find(
-        (x) => x.extraData.type === "id"
-      );
+        const targetBlockAttributes: _BlockAttributeMetadata[] =
+          Reflect.getMetadata(_blockAttributeKey, typeClass) ?? [];
 
-      if (!idAttribute) {
-        throw new Error(`Model ${typeClass.name} does not have a id field`);
+        const idAttr = targetAttributes.find(
+          (x) => x.extraData.type === "id" || x.extraData.type === "unique"
+        );
+
+        const idBlockAttr = targetBlockAttributes.find(
+          (x) => x.extraData.type === "id" || x.extraData.type === "unique"
+        );
+
+        // console.log({ idAttr, idBlockAttr, f: idBlockAttr.extraData.fields });
+
+        if (!idAttr && !idBlockAttr) {
+          console.log(targetBlockAttributes);
+          throw new Error(
+            `Model ${typeClass.name} does not have a unique field/fields. Did you forget to decorate a field with "@ID()"?`
+          );
+        } else if (idAttr) {
+          const idFieldName = idAttr.field;
+          const idType = targetProps
+            .find((x) => x.name === idFieldName)
+            .getType();
+
+          result.push(`${fieldName} ${getTypeName(idType)}`);
+        } else {
+          const ref = (references || (idBlockAttr.extraData as any).fields)[i];
+
+          const idType = targetProps.find((x) => x.name === ref).getType();
+
+          result.push(`${fieldName} ${getTypeName(idType)}`);
+        }
       }
-
-      const idFieldName = idAttribute.field;
-      const idType = targetProps.find((x) => x.name === idFieldName).getType();
-
-      result.push(`  ${fieldName} ${getTypeName(idType)}`);
     }
   }
-
-  result.push("");
-
-  console.log(blockAttributes, attributes);
 
   for (const blockAttr of blockAttributes) {
     if (
       !hasIdField &&
-      (blockAttr.extraData.type === "composite-id" ||
+      (blockAttr.extraData.type === "id" ||
         blockAttr.extraData.type === "unique")
     )
       hasIdField = true;
@@ -130,7 +150,7 @@ export const modelToString = (
   }
 
   if (!hasIdField) {
-    throw new Error(`Model ${ModelClass} does not have an id field`);
+    throw new Error(`Model ${ModelClass.name} does not have an id field`);
   }
 
   result.push("}");
@@ -140,7 +160,9 @@ export const modelToString = (
   return schema;
 };
 
-const getTypeName = (x: Function | object) => {
+const getTypeName = (x: Function | object | [Function]) => {
+  if (Array.isArray(x)) return `${getTypeName(x)}[]`;
+
   const sig = getSignature(x);
   return typeof x === "function"
     ? sig?.extraData?.name || x.name

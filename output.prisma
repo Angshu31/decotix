@@ -9,19 +9,16 @@ enum FavFood {
 }
 
 model Profile {
-  id       String @id
-  user     User?
-  username String
-
+  id      String @id
+  user    User   @relation(fields: [userId1, userId2], references: [id, id2])
+  userId1 String
+  userId2 String
 }
 
 model User {
-  id        String
-  id2       String
-  age       Float?
-  profile   Profile @relation(fields: [profileId], references: [id])
-  profileId String
-  favFood   FavFood
+  id      String
+  id2     String
+  profile Profile?
 
   @@id([id, id2])
 }
