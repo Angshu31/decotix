@@ -1,18 +1,23 @@
-import { Model, Property } from "..";
-import { ComposeID } from "../decorators/attributes/blocks/ComposeID";
-// import { CompositeID } from "../decorators/attributes/blocks/CompositeID";
+import { Model, Property, Int, ComposeUnique } from "..";
 import { Profile } from "./Profile";
 
 @Model()
-// @CompositeID(["id", "id2"])
 export default class User {
   @Property()
-  @ComposeID()
+  @ComposeUnique()
   id: string;
 
   @Property()
-  @ComposeID()
+  @ComposeUnique()
   id2: string;
+
+  @ComposeUnique("algebra")
+  @Property(() => Int)
+  x: number;
+
+  @ComposeUnique("algebra")
+  @Property(() => Int)
+  y: number;
 
   @Property(() => Profile, { nullable: true })
   profile?: Profile;

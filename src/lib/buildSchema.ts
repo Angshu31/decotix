@@ -19,19 +19,18 @@ export const buildSchema = async (
     if (sig.type === "enum") results.push(enumToString(struct, sig));
   };
 
-  console.log(options.baseSchemas, isGlob(options.baseSchemas[0]));
-
-  for (const pathOrSchema of options.baseSchemas) {
-    if (!isGlob(pathOrSchema)) {
-      results.push(pathOrSchema);
-    } else {
-      const filenames = await glob(pathOrSchema);
-      const contents = await Promise.all(
-        filenames.map(async (x) => (await readFile(x)).toString())
-      );
-      results.push(...contents);
+  if (options.baseSchemas)
+    for (const pathOrSchema of options.baseSchemas) {
+      if (!isGlob(pathOrSchema)) {
+        results.push(pathOrSchema);
+      } else {
+        const filenames = await glob(pathOrSchema);
+        const contents = await Promise.all(
+          filenames.map(async (x) => (await readFile(x)).toString())
+        );
+        results.push(...contents);
+      }
     }
-  }
 
   for (const filenameOrModelClass of options.input) {
     if (typeof filenameOrModelClass === "function") {

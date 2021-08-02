@@ -6,19 +6,20 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "test": "jest dist"
+    "test": "jest dist",
+    "dev": "ts-node src/sometest.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/glob": "^7.1.4",
     "@types/is-glob": "^4.0.2",
     "@types/jest": "^26.0.24",
     "@types/node": "^16.4.1",
     "jest": "^27.0.6",
     "ts-node": "^10.1.0",
-    "typescript": "^4.3.5",
-    "@types/glob": "^7.1.4"
+    "typescript": "^4.3.5"
   },
   "dependencies": {
     "@prisma/sdk": "^2.27.0",

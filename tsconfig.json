@@ -8,5 +8,6 @@
     "target": "ES2018",
     "lib": ["ESNext"],
     "module": "commonjs"
-  }
+  },
+  "exclude": ["**/*.prisma"]
 }
