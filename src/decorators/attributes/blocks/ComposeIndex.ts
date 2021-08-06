@@ -1,13 +1,13 @@
 import { ComposeBlockAttribute } from "./ComposeBlockAttribute";
 
-export const ComposeUnique = ComposeBlockAttribute<[name?: string]>(
+export const ComposeIndex = ComposeBlockAttribute<[name?: string]>(
   (key) => ({
     get str() {
-      return `@@unique([${this.extraData.fields.join(", ")}]${
+      return `@@index([${this.extraData.fields.join(", ")}]${
         typeof key === "string" ? `, name: "${key}"` : ""
       })`;
     },
-    extraData: { type: "unique", fields: [] },
+    extraData: { type: "index", fields: [] },
   }),
   (data, field) => {
     data.extraData.fields.push(field);

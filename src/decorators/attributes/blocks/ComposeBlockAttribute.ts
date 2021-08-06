@@ -3,7 +3,7 @@ import { _blockAttributeKey, _BlockAttributeMetadata } from "./BlockAttribute";
 type T = _BlockAttributeMetadata;
 
 export const ComposeBlockAttribute = <F extends any[]>(
-  getStarterData: () => T,
+  getStarterData: (key: any) => T,
   func: (prev: T, field: string | symbol, ...args: F) => void,
   getKey?: (target: Function, args: any[]) => any
 ): ((...args: F) => PropertyDecorator) => {
@@ -20,7 +20,7 @@ export const ComposeBlockAttribute = <F extends any[]>(
       console.log(key);
       if (!created.has(key)) {
         created.set(key, C);
-        allData.set(key, (data = getStarterData()));
+        allData.set(key, (data = getStarterData(key)));
 
         const existingMetadata = Reflect.getMetadata(_blockAttributeKey, C);
 

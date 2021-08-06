@@ -18,5 +18,5 @@ model User {
   profile Profile?
 
   @@unique([id, id2])
-  @@unique([x, y])
+  @@unique([x, y], name: "algebra")
 }
