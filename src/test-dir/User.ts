@@ -1,4 +1,4 @@
-import { Model, Property, Int, ComposeUnique } from "..";
+import { Model, Property, Int, ComposeUnique, NativeType } from "..";
 import { Profile } from "./Profile";
 
 @Model()
@@ -18,6 +18,10 @@ export default class User {
   @ComposeUnique("algebra")
   @Property(() => Int)
   y: number;
+
+  @NativeType("Bit")
+  @Property()
+  s: string;
 
   @Property(() => Profile, { nullable: true })
   profile?: Profile;

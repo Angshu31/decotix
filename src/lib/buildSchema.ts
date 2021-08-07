@@ -9,6 +9,8 @@ import isGlob from "is-glob";
 
 const glob = promisify(_glob);
 
+export { BuildSchemaOptions };
+
 export const buildSchema = async (
   options: BuildSchemaOptions
 ): Promise<string> => {
@@ -37,7 +39,7 @@ export const buildSchema = async (
       const sig = getSignature(filenameOrModelClass);
       if (!sig)
         throw new TypeError(
-          `A non-model class ${filenameOrModelClass.name} was passed into buildSchema. Did you forget to decorate it with "@Model()"?`
+          `A non-model class/function ${filenameOrModelClass.name} was passed into buildSchema. Did you forget to decorate it with "@Model()"?`
         );
       useClass(filenameOrModelClass, sig);
     } else {

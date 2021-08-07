@@ -1,4 +1,4 @@
-import { Float } from "../db-types";
+import { Float } from "../field-types";
 
 export const _propKey = Symbol("prisma-model-props");
 

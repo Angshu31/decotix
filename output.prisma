@@ -15,6 +15,7 @@ model User {
   id2     String
   x       Int
   y       Int
+  s       String   @db.Bit
   profile Profile?
 
   @@unique([id, id2])
