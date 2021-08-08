@@ -2,6 +2,23 @@ import { applySignature, _Signature } from "./signatures";
 
 type EnumSignatureData = { name: string };
 
+/**
+ * Note: Even if calling `registerEnums` on your enums, please make sure that you
+ * export them and load them onto `buildSchema`'s `input` option (directly or via a glob path)
+ *
+ * @example
+ * ```
+ * // FavFoood.ts
+ * import { registerEnums } from "../lib/enum";
+ *
+ * export enum FavFood {
+ *   banana,
+ *   apple,
+ * }
+ *
+ * registerEnums({ FavFood });
+ * ```
+ */
 export const registerEnums = (map: { [name: string]: any }) =>
   Object.entries(map).forEach(([name, theEnum]) =>
     applySignature(theEnum, "enum", { name } as EnumSignatureData)

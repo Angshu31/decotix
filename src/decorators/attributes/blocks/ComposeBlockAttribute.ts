@@ -17,7 +17,6 @@ export const ComposeBlockAttribute = <F extends any[]>(
 
       let data = allData.get(key);
 
-      console.log(key);
       if (!created.has(key)) {
         created.set(key, C);
         allData.set(key, (data = getStarterData(key)));
@@ -32,7 +31,5 @@ export const ComposeBlockAttribute = <F extends any[]>(
       }
 
       func(data, field, ...args);
-
-      console.log(data);
     };
 };

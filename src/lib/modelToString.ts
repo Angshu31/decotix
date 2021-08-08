@@ -113,10 +113,7 @@ export const modelToString = (
           (x) => x.extraData.type === "id" || x.extraData.type === "unique"
         );
 
-        // console.log({ idAttr, idBlockAttr, f: idBlockAttr.extraData.fields });
-
         if (!idAttr && !idBlockAttr) {
-          console.log(targetBlockAttributes);
           throw new Error(
             `Model ${typeClass.name} does not have a unique field/fields. Did you forget to decorate a field with "@ID()"?`
           );

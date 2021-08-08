@@ -6,6 +6,7 @@ import { BuildSchemaOptions } from "./BuildSchemaOptions";
 import { enumToString } from "./enum";
 import { readFile, writeFile } from "fs/promises";
 import isGlob from "is-glob";
+import { datasourceToString } from "./datasources";
 
 const glob = promisify(_glob);
 
@@ -19,6 +20,8 @@ export const buildSchema = async (
   const useClass = (struct: any, sig: _Signature) => {
     if (sig.type === "model") results.push(modelToString(struct, options));
     if (sig.type === "enum") results.push(enumToString(struct, sig));
+    if (sig.type === "datasource")
+      results.push(datasourceToString(struct, sig));
   };
 
   if (options.baseSchemas)
