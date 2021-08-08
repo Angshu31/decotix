@@ -1,74 +1,311 @@
 import { Attribute } from "./Attribute";
 
-export function NativeType(typeName: "ByteA", n: number): PropertyDecorator;
-export function NativeType(
-  typeName: "Timestamptz",
-  n: number
-): PropertyDecorator;
-export function NativeType(typeName: "Time", n: number): PropertyDecorator;
-export function NativeType(typeName: "Timetz", n: number): PropertyDecorator;
-export function NativeType(
-  typeName: "Decimal",
-  precision: number,
-  scale: number
-): PropertyDecorator;
-export function NativeType(typeName: "Real"): PropertyDecorator;
-export function NativeType(typeName: "SmallInt"): PropertyDecorator;
-export function NativeType(typeName: "Char"): PropertyDecorator;
-export function NativeType(typeName: "VarChar"): PropertyDecorator;
-export function NativeType(typeName: "Money"): PropertyDecorator;
-export function NativeType(typeName: "Date"): PropertyDecorator;
-export function NativeType(typeName: "Inet"): PropertyDecorator;
-export function NativeType(typeName: "Bit", n: number): PropertyDecorator;
-export function NativeType(typeName: "VarBit", n: number): PropertyDecorator;
-export function NativeType(typeName: "Oid"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - PostgreSQL
+ *   - MySQL
+ *   - SQL Server (Preview)
+ */
+export function NativeType(typeName: "Text"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - PostgreSQL
+ *   - MySQL
+ *   - SQL Server (Preview)
+ */
+export function NativeType(typeName: "Char", x: number): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - PostgreSQL
+ *   - MySQL
+ *   - SQL Server (Preview)
+ */
+export function NativeType(typeName: "VarChar", n: number): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - PostgreSQL
+ *   - MySQL
+ *   - SQL Server (Preview)
+ */
+export function NativeType(typeName: "Bit", x: number): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - PostgreSQL
+ */
+export function NativeType(typeName: "VarBit"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - PostgreSQL
+ */
 export function NativeType(typeName: "Uuid"): PropertyDecorator;
 /**
- *  *Notes for MySQL users: JSON is supported in MySQL 5.7+ only*
+ *  Supported By:
+ *   - PostgreSQL
+ *   - SQL Server (Preview)
  */
-export function NativeType(typeName: "Json"): PropertyDecorator;
 export function NativeType(typeName: "Xml"): PropertyDecorator;
 /**
- * Only available if [Citext extension is enabled](https://www.prisma.io/docs/concepts/components/prisma-schema/features-without-psl-equivalent/#enable-extensions-for-native-database-functions).
+ *  Supported By:
+ *   - PostgreSQL
+ */
+export function NativeType(typeName: "Inet"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - PostgreSQL
+ *
+ *  ### Notes
+ *  *PostgreSQL*: Only available if [Citext extension is enabled](https://www.prisma.io/docs/concepts/components/prisma-schema/features-without-psl-equivalent/#enable-extensions-for-native-database-functions).
  */
 export function NativeType(typeName: "Citext"): PropertyDecorator;
-export function NativeType(typeName: "UnsignedBigInt"): PropertyDecorator;
-export function NativeType(typeName: "TinyInt", n: number): PropertyDecorator;
-export function NativeType(typeName: "VarBinary"): PropertyDecorator;
-export function NativeType(typeName: "LongBlob"): PropertyDecorator;
-export function NativeType(typeName: "TinyBlob"): PropertyDecorator;
-export function NativeType(typeName: "MediumBlob"): PropertyDecorator;
-export function NativeType(typeName: "Blob"): PropertyDecorator;
-export function NativeType(typeName: "Binary"): PropertyDecorator;
-export function NativeType(typeName: "TimeStamp"): PropertyDecorator;
-export function NativeType(typeName: "Float"): PropertyDecorator;
-export function NativeType(typeName: "Double"): PropertyDecorator;
-export function NativeType(typeName: "UnsignedSmallInt"): PropertyDecorator;
-export function NativeType(typeName: "UnsignedMediumInt"): PropertyDecorator;
-export function NativeType(typeName: "Int"): PropertyDecorator;
-export function NativeType(typeName: "UnsignedInt"): PropertyDecorator;
-export function NativeType(typeName: "TinyInt", n: number): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - PostgreSQL
+ */
+export function NativeType(typeName: "Boolean"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - PostgreSQL
+ */
+export function NativeType(typeName: "Integer"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - PostgreSQL
+ *   - MySQL
+ *   - SQL Server (Preview)
+ */
+export function NativeType(typeName: "SmallInt"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - PostgreSQL
+ */
+export function NativeType(typeName: "Oid"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - PostgreSQL
+ *   - MySQL
+ *   - SQL Server (Preview)
+ */
+export function NativeType(typeName: "BigInt"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - PostgreSQL
+ */
+export function NativeType(typeName: "DoublePrecision"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - PostgreSQL
+ */
+export function NativeType(typeName: "Real"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - PostgreSQL
+ *   - MySQL
+ *   - SQL Server (Preview)
+ */
 export function NativeType(
-  typeName: "UnsignedTinyInt",
-  n: number
+  typeName: "Decimal",
+  X: number,
+  Y: number
 ): PropertyDecorator;
-export function NativeType(typeName: "Year"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - PostgreSQL
+ */
+export function NativeType(typeName: "Money"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - PostgreSQL
+ *   - MySQL
+ */
+export function NativeType(typeName: "Timestamp", x: number): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - PostgreSQL
+ */
+export function NativeType(
+  typeName: "Timestamptz",
+  x: number
+): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - PostgreSQL
+ *   - MySQL
+ *   - SQL Server (Preview)
+ */
+export function NativeType(typeName: "Date"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - PostgreSQL
+ *   - MySQL
+ *   - SQL Server (Preview)
+ */
+export function NativeType(typeName: "Time", x: number): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - PostgreSQL
+ */
+export function NativeType(typeName: "Timetz", x: number): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - PostgreSQL
+ *   - MySQL
+ */
+export function NativeType(typeName: "Json"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - PostgreSQL
+ */
+export function NativeType(typeName: "JsonB"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - MySQL
+ */
 export function NativeType(typeName: "TinyText"): PropertyDecorator;
-export function NativeType(typeName: "Text"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - MySQL
+ */
 export function NativeType(typeName: "MediumText"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - MySQL
+ */
 export function NativeType(typeName: "LongText"): PropertyDecorator;
-export function NativeType(typeName: "NChar", n: number): PropertyDecorator;
-export function NativeType(typeName: "NVarChar", n: number): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - MySQL
+ *   - SQL Server (Preview)
+ *
+ *  ### Notes
+ *  *MySQL*: `TINYINT` maps to `Int` if the max length is greater than 1 (for example, `TINYINT(2)`) or the default value is anything other than `1`, `0`, or `NULL`. `TINYINT(1)` maps to `Boolean`.
+ */
+export function NativeType(typeName: "TinyInt", x: number): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - MySQL
+ *   - SQL Server (Preview)
+ */
+export function NativeType(typeName: "Int"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - MySQL
+ */
+export function NativeType(typeName: "UnsignedInt"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - MySQL
+ */
+export function NativeType(typeName: "UnsignedSmallInt"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - MySQL
+ */
+export function NativeType(typeName: "MediumInt"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - MySQL
+ */
+export function NativeType(typeName: "UnsignedMediumInt"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - MySQL
+ *
+ *  ### Notes
+ *  *MySQL*: `TINYINT(1) UNSIGNED` maps to `Int`, not `Boolean`
+ */
+export function NativeType(typeName: "UnsignedTinyInt"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - MySQL
+ */
+export function NativeType(typeName: "Year"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - MySQL
+ */
+export function NativeType(typeName: "Float"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - MySQL
+ */
+export function NativeType(typeName: "Double"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - MySQL
+ *   - SQL Server (Preview)
+ */
+export function NativeType(typeName: "DateTime", x: number): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - MySQL
+ */
+export function NativeType(typeName: "LongBlob"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - MySQL
+ *   - SQL Server (Preview)
+ */
+export function NativeType(typeName: "Binary"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - MySQL
+ *   - SQL Server (Preview)
+ */
+export function NativeType(typeName: "VarBinary"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - MySQL
+ */
+export function NativeType(typeName: "TinyBlob"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - MySQL
+ */
+export function NativeType(typeName: "Blob"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - MySQL
+ */
+export function NativeType(typeName: "MediumBlob"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - SQL Server (Preview)
+ */
+export function NativeType(typeName: "NChar", X: number): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - SQL Server (Preview)
+ */
+export function NativeType(typeName: "NVarChar", X: number): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - SQL Server (Preview)
+ */
 export function NativeType(typeName: "NText"): PropertyDecorator;
-export function NativeType(
-  typeName: "UniqueIdentifier",
-  n: number
-): PropertyDecorator;
-export function NativeType(typeName: "SmallMoney"): PropertyDecorator;
-export function NativeType(typeName: "DateTime"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - SQL Server (Preview)
+ */
+export function NativeType(typeName: "UniqueIdentifier"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - SQL Server (Preview)
+ */
 export function NativeType(typeName: "DateTime2"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - SQL Server (Preview)
+ */
 export function NativeType(typeName: "SmallDateTime"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - SQL Server (Preview)
+ */
 export function NativeType(typeName: "DateTimeOffset"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - SQL Server (Preview)
+ */
 export function NativeType(typeName: "Image"): PropertyDecorator;
 
 export function NativeType(typeName: string, ...args: any[]): PropertyDecorator;
