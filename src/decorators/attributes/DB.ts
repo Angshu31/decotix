@@ -1,5 +1,6 @@
 import { Attribute } from "./Attribute";
 
+export function NativeType(typeName: "ByteA", n: number): PropertyDecorator;
 export function NativeType(
   typeName: "Timestamptz",
   n: number
