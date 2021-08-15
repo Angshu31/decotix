@@ -1,7 +1,7 @@
 import { Model, Property, Int, ComposeUnique, NativeType } from "..";
 import { Profile } from "./Profile";
 
-@Model()
+@Model("TheUserModel")
 export default class User {
   @Property()
   @ComposeUnique()

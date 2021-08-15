@@ -8,31 +8,45 @@ import { Attribute } from "./Attribute";
  */
 export function NativeType(typeName: "Text"): PropertyDecorator;
 /**
+ *  @param limit The max amount of characters that can be stored
+ *
  *  Supported By:
  *   - PostgreSQL
  *   - MySQL
  *   - SQL Server (Preview)
  */
-export function NativeType(typeName: "Char", x: number): PropertyDecorator;
+export function NativeType(typeName: "Char", limit: number): PropertyDecorator;
 /**
+ *  @param limit The max amount of characters that can be stored
+ *
  *  Supported By:
  *   - PostgreSQL
  *   - MySQL
  *   - SQL Server (Preview)
  */
-export function NativeType(typeName: "VarChar", n: number): PropertyDecorator;
+export function NativeType(
+  typeName: "VarChar",
+  limit: number
+): PropertyDecorator;
 /**
+ *  @param limit The max amount of characters that can be stored
+ *
  *  Supported By:
  *   - PostgreSQL
  *   - MySQL
  *   - SQL Server (Preview)
  */
-export function NativeType(typeName: "Bit", x: number): PropertyDecorator;
+export function NativeType(typeName: "Bit", limit: number): PropertyDecorator;
 /**
+ *  @param limit The max amount of characters that can be stored
+ *
  *  Supported By:
  *   - PostgreSQL
  */
-export function NativeType(typeName: "VarBit"): PropertyDecorator;
+export function NativeType(
+  typeName: "VarBit",
+  limit?: number
+): PropertyDecorator;
 /**
  *  Supported By:
  *   - PostgreSQL
@@ -104,8 +118,8 @@ export function NativeType(typeName: "Real"): PropertyDecorator;
  */
 export function NativeType(
   typeName: "Decimal",
-  X: number,
-  Y: number
+  precision: number,
+  scale: number
 ): PropertyDecorator;
 /**
  *  Supported By:

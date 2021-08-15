@@ -3,8 +3,9 @@ import { Attribute } from "./Attribute";
 export type DefaultAttributeType =
   | "autoincrement"
   | "uuid"
-  | (string & { zz_ignore_me__?: never })
-  | (any & { zz_ignore_me___?: never });
+  | "cuid"
+  | "dbgenerated"
+  | (string & { zz_ignore_me__?: never });
 
 /**
  * The `@default()` attribute
@@ -17,8 +18,11 @@ export type DefaultAttributeType =
 export function Default(default_: DefaultAttributeType) {
   return Attribute(
     `@default(${
-      // Autoinsert `()` for autoincrement and uuid
-      default_ === "autoincrement" || default_ === "uuid"
+      // Autoinsert `()` for predefined options
+      default_ === "autoincrement" ||
+      default_ === "uuid" ||
+      default_ === "cuid" ||
+      default_ === "dbgenerated"
         ? `${default_}()`
         : default_
     })`,

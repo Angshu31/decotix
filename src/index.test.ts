@@ -6,7 +6,5 @@ it("generates model string", async () => {
     input: [join(__dirname, "test-dir/**/*")],
   });
 
-  console.log(str);
-
   expect(str).toBeTruthy();
 });
