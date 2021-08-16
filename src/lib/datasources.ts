@@ -9,7 +9,7 @@ export const dsenv = ds_env;
  *  @example
  * ```
  * // datasource.ts
- * import { createDatasource, ds_env } from "prisma-decorators";
+ * import { createDatasource, ds_env } from "decotix";
  *
  * export default createDatasource({
  *    provider: "postgresql",

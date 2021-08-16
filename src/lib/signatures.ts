@@ -1,4 +1,4 @@
-export const _signatureKey = "__prisma-decorators-signature-key__";
+export const _signatureKey = "__decotix-signature-key__";
 
 export type _Signature = { type: string; extraData: any };
 
