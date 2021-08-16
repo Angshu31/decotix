@@ -7,7 +7,7 @@ export class Profile {
   @ID()
   id: string;
 
-  @Relation({ fields: ["userId1", "userId2"], references: ["id", "id2"] })
+  @Relation<User>(["id", "id2"])
   @Property(() => User)
   user: User;
 }

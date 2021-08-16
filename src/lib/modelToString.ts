@@ -79,7 +79,7 @@ export const modelToString = (
       } ${fieldAttributes.map((x) => x.str).join(" ")}`
     );
 
-    // By default, option is true
+    // Auto inserting Relational fields (default for option: true)
     if (config.autoInsertRelationalFields ?? true) {
       const attribute = fieldAttributes.find(
         (x) => x.extraData.type === "relation"
@@ -90,47 +90,20 @@ export const modelToString = (
           (x) => typeof x === "object"
         ) || {};
 
-      if (!fields) continue;
+      // Skip the field if it's not a relation and it doesn't have a { field, references } object inside of it
+      if (!fields || !references) continue;
 
-      for (let i = 0; i < fields.length; i++) {
-        const fieldName = fields[i];
-        const target = new (typeClass as any)();
+      const target = new (typeClass as any)();
 
-        const targetProps: _PropertyMetadata[] =
-          Reflect.getMetadata(_propKey, target) ?? [];
+      const props: _PropertyMetadata[] =
+        Reflect.getMetadata(_propKey, target) ?? [];
 
-        const targetAttributes: _AttributeMetadata[] =
-          Reflect.getMetadata(_attributeKey, target) ?? [];
+      for (let i = 0; i < props.length; i++) {
+        const prop = props[i];
+        const idx = references.indexOf(prop.name);
 
-        const targetBlockAttributes: _BlockAttributeMetadata[] =
-          Reflect.getMetadata(_blockAttributeKey, typeClass) ?? [];
-
-        const idAttr = targetAttributes.find(
-          (x) => x.extraData.type === "id" || x.extraData.type === "unique"
-        );
-
-        const idBlockAttr = targetBlockAttributes.find(
-          (x) => x.extraData.type === "id" || x.extraData.type === "unique"
-        );
-
-        if (!idAttr && !idBlockAttr) {
-          throw new Error(
-            `Model ${typeClass.name} does not have a unique field/fields. Did you forget to decorate a field with "@ID()"?`
-          );
-        } else if (idAttr) {
-          const idFieldName = idAttr.field;
-          const idType = targetProps
-            .find((x) => x.name === idFieldName)
-            .getType();
-
-          result.push(`${fieldName} ${getTypeName(idType)}`);
-        } else {
-          const ref = (references || (idBlockAttr.extraData as any).fields)[i];
-
-          const idType = targetProps.find((x) => x.name === ref).getType();
-
-          result.push(`${fieldName} ${getTypeName(idType)}`);
-        }
+        if (idx !== -1)
+          result.push(`${fields[idx]} ${getTypeName(prop.getType())}`);
       }
     }
   }

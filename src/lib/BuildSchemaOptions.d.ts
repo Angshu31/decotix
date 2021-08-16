@@ -18,31 +18,49 @@ export type BuildSchemaOptions = {
   emitTo?: string;
 
   /**
-   * Automatically adds the id field of a relation
+   * Automatically adds the fields of a relation
    *
-   * @example
-   
-  ```prisma
-  model User {
-    // ...
-    profile   Profile \@relation(fields: [profileId], references: [id])
-  
-    // This `profileId` is auto-generated because of the `fields: [profileId]` above in the relation
-    profileId String
-  }
-  ```
+   * Default: `false`
+   *
+   *
+   * Example:
+   * ```prisma
+   * model User {
+   *   profile   Profile   @relation(fields: [profileId], references: [id])
+   *
+   *   profileId String // This field would be automatically placed here
+   *                    // because of the `fields: [...]` section above
+   * }
+   * ```
+   *
+   *
+   * ```
+   * class User {
+   *   // Needs a `fields` and a `references`
+   *   \@Relation<User, Profile>({ fields: ["profileId"], references: ["id"] })
+   *
+   *   // You can also use shorthand
+   *   \@Relation<Profile>(["id"])
+   *
+   *   // Don't forget about `Property` :)
+   *   \@Property(() => Profile)
+   *   profile: Profile;
+   * }
+   * ```
+   *
+   *
    */
   autoInsertRelationalFields?: boolean;
   /**
    * Automatically inserts a `@default` attribute on IDs if absent
    * The value for this option should be what goes inside the `@default()` attribute (e.g. `@default(autoincrement())`)
    *
-   * NOTE: `()` is not always added to your value by default. Only `autoincrement` and `uuid` are changed to `autoincrement()` and `uuid()`.
-   * ***This means that `someOtherPrismaFunction` will not be converted to `someOtherPrismaFunction()`***
+   * **NOTE**: Predefined options (that appear in the intellisense) like `autoincrement`, `uuid` and `dbgenerated` have a pair of brackets `()` appended to them. If your function does not appear in the intellisense, add `()` yourself.
    */
   autoInsertDefaultId?: DefaultAttributeType;
   /**
-   * Prettify the generated prisma code
+   * Prettify the generated prisma code.
+   * Default: `true`
    */
   prettify?: boolean;
 };

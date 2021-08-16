@@ -13,28 +13,46 @@ type FieldsReferencesData<ThisModel, OtherModel> = {
   references?: (keyof OtherModel | (string & {}))[];
 };
 
-export function Relation<ThisModel = any, OtherModel = any>(
+export function Relation<OtherModel = any>(
+  name: string,
+  references: (keyof OtherModel)[]
+): PropertyDecorator;
+
+export function Relation<OtherModel = any>(
+  references: (keyof OtherModel)[]
+): PropertyDecorator;
+
+export function Relation(
+  data: FieldsReferencesData<any, any>
+): PropertyDecorator;
+export function Relation<ThisModel, OtherModel>(
   data: FieldsReferencesData<ThisModel, OtherModel>
 ): PropertyDecorator;
+
 export function Relation(name: string): PropertyDecorator;
-export function Relation<ThisModel = any, OtherModel = any>(
+
+export function Relation<ThisModel, OtherModel>(
   name: string,
   data: FieldsReferencesData<ThisModel, OtherModel>
 ): PropertyDecorator;
-export function Relation<ThisModel = any, OtherModel = any>(
+export function Relation(
+  name: string,
+  data: FieldsReferencesData<any, any>
+): PropertyDecorator;
+
+export function Relation<ThisModel, OtherModel>(
   data: FieldsReferencesData<ThisModel, OtherModel> & { name: string }
 ): PropertyDecorator;
-export function Relation<OtherModel = any>(
-  name: string,
-  data: (keyof OtherModel)[]
+export function Relation(
+  data: FieldsReferencesData<any, any> & { name: string }
 ): PropertyDecorator;
-export function Relation<OtherModel = any>(
-  data: (keyof OtherModel)[]
-): PropertyDecorator;
+
 export function Relation(...args: any[]): PropertyDecorator {
   return (target, propKey) => {
     const mappedArgs = args.map((a) =>
-      Array.isArray(a) ? { fields: [String(propKey) + "Id"], references: a } : a
+      Array.isArray(a)
+        ? { fields: a.map((ref) => String(propKey) + ref), references: a }
+        : a
     );
 
     Attribute(

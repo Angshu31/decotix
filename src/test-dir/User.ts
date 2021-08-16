@@ -1,4 +1,5 @@
 import { Model, Property, Int, ComposeUnique, NativeType } from "..";
+import { MapField } from "../decorators/attributes/MapField";
 import { Profile } from "./Profile";
 
 @Model("TheUserModel")
@@ -7,9 +8,9 @@ export default class User {
   @ComposeUnique()
   id: string;
 
-  @Property()
+  @Property(() => Int)
   @ComposeUnique()
-  id2: string;
+  id2: number;
 
   @ComposeUnique("algebra")
   @Property(() => Int)
@@ -19,7 +20,7 @@ export default class User {
   @Property(() => Int)
   y: number;
 
-  @NativeType("Bit")
+  @NativeType("Text")
   @Property()
   s: string;
 
