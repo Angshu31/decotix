@@ -9,13 +9,13 @@ enum FavFood {
 }
 
 model Profile {
-  id      String       @id
-  user    TheUserModel @relation(fields: [userid, userid2], references: [id, id2])
+  id      String @id
+  user    UsEr   @relation(fields: [userid, userid2], references: [id, id2])
   userid  String
   userid2 Int
 }
 
-model TheUserModel {
+model UsEr {
   id      String
   id2     Int
   x       Int
@@ -23,6 +23,7 @@ model TheUserModel {
   s       String   @db.Text
   profile Profile?
 
-  @@unique([id, id2])
+  @@id([id, id2])
   @@unique([x, y], name: "algebra")
+  @@unique([s, y], name: "SomeName")
 }

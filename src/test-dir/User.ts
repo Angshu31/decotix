@@ -1,15 +1,23 @@
-import { Model, Property, Int, ComposeUnique, NativeType } from "..";
-import { MapField } from "../decorators/attributes/MapField";
+import {
+  Model,
+  Property,
+  Int,
+  ComposeUnique,
+  NativeType,
+  CompoundUnique,
+  ComposeID,
+} from "..";
+import { CompositeID } from "../decorators/attributes/blocks/CompositeID";
 import { Profile } from "./Profile";
 
-@Model("TheUserModel")
+@Model("UsEr")
+@CompoundUnique<User>(["s", "y"], "SomeName")
+@CompositeID<User>(["id", "id2"])
 export default class User {
   @Property()
-  @ComposeUnique()
   id: string;
 
   @Property(() => Int)
-  @ComposeUnique()
   id2: number;
 
   @ComposeUnique("algebra")

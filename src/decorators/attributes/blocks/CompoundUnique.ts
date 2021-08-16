@@ -1,6 +1,9 @@
 import { BlockAttribute } from "./BlockAttribute";
 
-export const CompoundUnique = (fields: string[], name?: string) =>
+export const CompoundUnique = <T extends any>(
+  fields: (keyof T)[],
+  name?: string
+) =>
   BlockAttribute(
     `@@unique([${fields.join(", ")}]${name ? `, name: "${name}"` : ""})`,
     {
