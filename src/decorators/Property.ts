@@ -1,4 +1,4 @@
-import { Float } from "../field-types";
+import { DateTime, Float } from "../field-types";
 
 export const _propKey = Symbol("prisma-model-props");
 
@@ -27,6 +27,8 @@ export function Property(...args: any[]) {
         : () => {
             const x = Reflect.getMetadata("design:type", target, name);
             if (x === Number) return Float;
+            if (x === Date) return DateTime;
+
             return x;
           };
 

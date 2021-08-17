@@ -74,7 +74,7 @@ export const modelToString = (
 
     // Adds the line of prisma code for the field
     result.push(
-      `  ${name} ${getSignature(typeClass)?.extraData.name || typeClass.name}${
+      `  ${name} ${getTypeName(typeClass)}${
         nullable ? "?" : ""
       } ${fieldAttributes.map((x) => x.str).join(" ")}`
     );
@@ -131,7 +131,7 @@ export const modelToString = (
 };
 
 const getTypeName = (x: Function | object | [Function]) => {
-  if (Array.isArray(x)) return `${getTypeName(x)}[]`;
+  if (Array.isArray(x)) return `${getTypeName(x[0])}[]`;
 
   const sig = getSignature(x);
   return typeof x === "function"

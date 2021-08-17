@@ -13,6 +13,8 @@ type FieldsReferencesData<ThisModel, OtherModel> = {
   references?: (keyof OtherModel | (string & {}))[];
 };
 
+export function Relation(): PropertyDecorator;
+
 export function Relation<OtherModel = any>(
   name: string,
   references: (keyof OtherModel)[]
@@ -49,6 +51,10 @@ export function Relation(
 
 export function Relation(...args: any[]): PropertyDecorator {
   return (target, propKey) => {
+    if (args.length === 0) {
+      args.push(["id"]);
+    }
+
     const mappedArgs = args.map((a) =>
       Array.isArray(a)
         ? {

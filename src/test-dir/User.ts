@@ -1,20 +1,11 @@
-import {
-  Model,
-  Property,
-  Int,
-  ComposeUnique,
-  NativeType,
-  CompoundUnique,
-  ComposeID,
-} from "..";
-import { CompositeID } from "../decorators/attributes/blocks/CompositeID";
+import { Model, Property, Int, ComposeUnique, CompoundUnique, Id } from "..";
 import { Profile } from "./Profile";
 
 @Model("UsEr")
 @CompoundUnique<User>(["s", "y"], "SomeName")
-@CompositeID<User>(["id", "id2"])
 export default class User {
   @Property()
+  @Id()
   id: string;
 
   @Property(() => Int)
@@ -28,9 +19,8 @@ export default class User {
   @Property(() => Int)
   y: number;
 
-  @NativeType("Text")
-  @Property()
-  s: string;
+  @Property(() => [String])
+  s: string[];
 
   @Property(() => Profile, { nullable: true })
   profile?: Profile;

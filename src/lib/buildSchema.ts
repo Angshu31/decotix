@@ -7,6 +7,7 @@ import { enumToString } from "./enum";
 import { readFile, writeFile } from "fs/promises";
 import isGlob from "is-glob";
 import { datasourceToString } from "./datasources";
+import { generatorToString } from "./generators";
 
 const glob = promisify(_glob);
 
@@ -22,6 +23,7 @@ export const buildSchema = async (
     if (sig.type === "enum") results.push(enumToString(struct, sig));
     if (sig.type === "datasource")
       results.push(datasourceToString(struct, sig));
+    if (sig.type === "generator") results.push(generatorToString(struct, sig));
   };
 
   if (options.baseSchemas)
