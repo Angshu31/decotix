@@ -4,15 +4,15 @@ datasource db {
 }
 
 enum FavFood {
-  banana
-  apple
+  b
+  a
 }
 
 model Profile {
   id      String @id
-  user    UsEr   @relation(fields: [userid, userid2], references: [id, id2])
-  userid  String
-  userid2 Int
+  user    UsEr   @relation(fields: [userId, userId2], references: [id, id2])
+  userId  String
+  userId2 Int
 }
 
 model UsEr {

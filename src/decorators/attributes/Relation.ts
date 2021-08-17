@@ -51,7 +51,12 @@ export function Relation(...args: any[]): PropertyDecorator {
   return (target, propKey) => {
     const mappedArgs = args.map((a) =>
       Array.isArray(a)
-        ? { fields: a.map((ref) => String(propKey) + ref), references: a }
+        ? {
+            fields: a.map(
+              (ref) => String(propKey) + ref[0].toUpperCase() + ref.slice(1)
+            ),
+            references: a,
+          }
         : a
     );
 

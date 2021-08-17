@@ -6,6 +6,11 @@ export const ds_env = (envVarName: string) => `env("${envVarName}")`;
 export const dsenv = ds_env;
 
 /**
+ *
+ * *Note*: While you may use this api to create generators we recommend that you
+ * put generators and datasources in a base prisma file. Please see the "baseSchemas"
+ * option of `buildSchema`
+ *
  *  @example
  * ```
  * // datasource.ts

@@ -9,6 +9,7 @@ export * from "./lib/enum";
 export * from "./decorators/Model";
 export * from "./decorators/Property";
 export * from "./decorators/attributes/Attribute";
+export * from "./decorators/attributes/CreatedAndUpdatedAt";
 export * from "./decorators/attributes/DB";
 export * from "./decorators/attributes/Default";
 export * from "./decorators/attributes/ID";

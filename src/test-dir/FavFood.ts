@@ -1,8 +1,8 @@
 import { registerEnums } from "../lib/enum";
 
 export enum FavFood {
-  banana,
-  apple,
+  BANANA = "b",
+  APPLE = "a",
 }
 
 registerEnums({ FavFood });
