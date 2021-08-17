@@ -1,7 +1,7 @@
 import { Attribute } from "./Attribute";
 import { Default, DefaultAttributeType } from "./Default";
 
-export const ID =
+export const Id =
   (default_?: DefaultAttributeType): PropertyDecorator =>
   (a, b) => {
     Attribute("@id", { type: "id" })(a, b);

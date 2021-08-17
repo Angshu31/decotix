@@ -12,7 +12,7 @@ export * from "./decorators/attributes/Attribute";
 export * from "./decorators/attributes/CreatedAndUpdatedAt";
 export * from "./decorators/attributes/DB";
 export * from "./decorators/attributes/Default";
-export * from "./decorators/attributes/ID";
+export * from "./decorators/attributes/Id";
 export * from "./decorators/attributes/MapField";
 export * from "./decorators/attributes/Relation";
 export * from "./decorators/attributes/Unique";

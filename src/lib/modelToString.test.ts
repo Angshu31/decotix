@@ -1,11 +1,11 @@
-import { Model, Property, ID, Relation } from "..";
+import { Model, Property, Id, Relation } from "..";
 import { Unsupported } from "../field-types";
 import { modelToString } from "./modelToString";
 
 @Model()
 class MyModelA {
   @Property()
-  @ID("uuid")
+  @Id("uuid")
   id: string;
 
   @Relation<MyModelB>(["id"])
@@ -23,7 +23,7 @@ class MyModelA {
 @Model()
 class MyModelB {
   @Property()
-  @ID("uuid")
+  @Id("uuid")
   id: string;
 
   @Property(() => MyModelA)
