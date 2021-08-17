@@ -12,6 +12,8 @@ model Profile {
   id     String @id
   user   UsEr   @relation(fields: [userId], references: [id])
   userId String
+  x      UsEr   @relation("x", fields: [xId], references: [id])
+  xId    String
 }
 
 model UsEr {
@@ -24,4 +26,5 @@ model UsEr {
 
   @@unique([x, y], name: "algebra")
   @@unique([s, y], name: "SomeName")
+  Profile Profile[] @relation("x")
 }

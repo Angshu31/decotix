@@ -32,6 +32,7 @@ export function Relation<ThisModel, OtherModel>(
 ): PropertyDecorator;
 
 export function Relation(name: string): PropertyDecorator;
+export function Relation(name: string, autofill?: boolean): PropertyDecorator;
 
 export function Relation<ThisModel, OtherModel>(
   name: string,
@@ -53,6 +54,8 @@ export function Relation(...args: any[]): PropertyDecorator {
   return (target, propKey) => {
     if (args.length === 0) {
       args.push(["id"]);
+    } else if (typeof args[0] === "string" && args[1] === true) {
+      args[1] = ["id"];
     }
 
     const mappedArgs = args.map((a) =>

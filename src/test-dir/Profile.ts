@@ -10,4 +10,8 @@ export class Profile {
   @Relation()
   @Property(() => User)
   user: User;
+
+  @Relation("x", true)
+  @Property()
+  x: User;
 }
