@@ -8,39 +8,23 @@ enum FavFood {
   a
 }
 
-model OauthConnection {
-  id                 String   @id @default(uuid())
-  email              String
-  oauthServiceUserId String
-  isPrimary          Boolean
-  user               User     @relation(fields: [userId], references: [id])
-  userId             String
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+model Profile {
+  id     String @id
+  user   UsEr   @relation(fields: [userId], references: [id])
+  userId String
+  x      UsEr   @relation("x", fields: [usErId], references: [id])
+  usErId String
 }
 
-model UserProfile {
-  id        String @id @default(uuid())
-  user      User?  @relation("UserProfileRelation")
-  avatarURL String
-}
+model UsEr {
+  id      String   @id
+  id2     Int
+  x       Int
+  y       Int
+  s       String[]
+  profile Profile?
 
-model TokenPair {
-  id           String   @id @default(uuid())
-  accessToken  String   @unique
-  refreshToken String   @unique
-  user         User     @relation(fields: [userId], references: [id])
-  userId       String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-}
-
-model User {
-  id              String            @id @default(uuid())
-  profile         UserProfile       @relation("UserProfileRelation", fields: [profileId], references: [id])
-  profileId       String
-  following       User[]            @relation("UserFollowRelation", references: [id])
-  followers       User[]            @relation("UserFollowRelation", references: [id])
-  OauthConnection OauthConnection[]
-  TokenPair       TokenPair[]
+  Profile Profile[] @relation("x")
+  @@unique([x, y], name: "algebra")
+  @@unique([s, y], name: "SomeName")
 }

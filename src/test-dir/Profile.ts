@@ -14,7 +14,7 @@ export class UserProfile {
   @Property(() => User, { nullable: true })
   user: User;
 
-  // @Field()
+  @Relation("x", true)
   @Property()
-  avatarURL: string;
+  x: User;
 }
