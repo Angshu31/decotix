@@ -1,27 +1,47 @@
-import { Model, Property, Int, ComposeUnique, CompoundUnique, Id } from "..";
-import { Profile } from "./Profile";
+import { Model, Property, Id, Relation } from "..";
+import { UserProfile } from "./Profile";
 
-@Model("UsEr")
-@CompoundUnique<User>(["s", "y"], "SomeName")
-export default class User {
-  @Property()
-  @Id()
+@Model()
+// @ObjectType()
+export class User {
+  // @Field(() => ID)
+  @Property(() => String)
+  @Id("uuid")
   id: string;
 
-  @Property(() => Int)
-  id2: number;
+  // @Field(() => UserProfile)
+  @Property(() => UserProfile)
+  @Relation("UserProfileRelation", {
+    fields: ["profileId"],
+    references: ["id"],
+  })
+  profile: UserProfile;
 
-  @ComposeUnique("algebra")
-  @Property(() => Int)
-  x: number;
+  // TODO: Add Project relation
+  ownedProjects: any[];
 
-  @ComposeUnique("algebra")
-  @Property(() => Int)
-  y: number;
+  // TODO: Add ProjectMember relation
+  allProjects: any[];
 
-  @Property(() => [String])
-  s: string[];
+  // TODO: Add Liked Projects relation
+  likedProjects: any[];
 
-  @Property(() => Profile, { nullable: true })
-  profile?: Profile;
+  // TODO: Add Followed Projects relation
+  followedProjects: any[];
+
+  // @Field(() => [User])
+  @Relation("UserFollowRelation", { references: ["id"] })
+  @Property(() => [User])
+  following: User[];
+
+  // @Field(() => [User])
+  @Relation("UserFollowRelation", { references: ["id"] })
+  @Property(() => [User])
+  followers: User[];
+
+  // TODO: Add Post relationships
+  posts: any[];
+  likedPosts: any[];
+  likedComments: any[];
+  viewablePosts: any[];
 }

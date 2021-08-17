@@ -1,13 +1,20 @@
-import { Id, Model, Property, Relation } from "..";
-import User from "./User";
+import { Model, Property, Id, Relation } from "..";
+import { User } from "./User";
 
 @Model()
-export class Profile {
+// @ObjectType()
+export class UserProfile {
+  // @Field(() => ID)
   @Property()
-  @Id()
+  @Id("uuid")
   id: string;
 
-  @Relation()
-  @Property(() => User)
+  // @Field(() => User)
+  @Relation("UserProfileRelation")
+  @Property(() => User, { nullable: true })
   user: User;
+
+  // @Field()
+  @Property()
+  avatarURL: string;
 }

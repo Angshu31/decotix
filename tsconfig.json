@@ -10,5 +10,5 @@
     "module": "commonjs",
     "declaration": true
   },
-  "exclude": ["**/*.prisma"]
+  "exclude": ["**/*.prisma", "./dist/**/*"]
 }

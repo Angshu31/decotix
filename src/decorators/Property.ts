@@ -19,7 +19,7 @@ export function Property(
   getType: GetType,
   options: PropertyOptions
 ): PropertyDecorator;
-export function Property(...args: any[]) {
+export function Property(...args: any[]): PropertyDecorator {
   return (target, name) => {
     const getType =
       typeof args[0] === "function"
@@ -28,6 +28,14 @@ export function Property(...args: any[]) {
             const x = Reflect.getMetadata("design:type", target, name);
             if (x === Number) return Float;
             if (x === Date) return DateTime;
+
+            if (x == null) {
+              throw new TypeError(
+                `The types could not be read for ${
+                  target.constructor.name
+                }.${String(name)}`
+              );
+            }
 
             return x;
           };

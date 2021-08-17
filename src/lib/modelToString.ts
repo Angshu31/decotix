@@ -50,7 +50,7 @@ export const modelToString = (
       hasIdField = true;
 
     if (config.autoInsertDefaultId) {
-      // The field must have a unique or id field, if there is no default field, we'll add one
+      // The field must have a unique or id field, if there is no default attribute, we'll add one
 
       let idField: string,
         hasDefault = false;
