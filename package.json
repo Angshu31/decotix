@@ -1,7 +1,7 @@
 {
   "name": "decotix",
   "version": "1.0.0",
-  "description": "",
+  "description": "A decorator-focused typescript client for the Prisma schema file",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
@@ -9,9 +9,21 @@
     "test": "jest dist",
     "dev": "ts-node src/sometest.ts"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "prisma",
+    "decorators",
+    "typescript"
+  ],
+  "author": "Bedanta Mukhopadhay",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hydralite/decotix.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hydralite/decotix/issues"
+  },
+  "readme": "https://github.com/hydralite/decotix#readme",
   "devDependencies": {
     "@types/glob": "^7.1.4",
     "@types/is-glob": "^4.0.2",
