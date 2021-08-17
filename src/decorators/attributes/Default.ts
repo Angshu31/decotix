@@ -5,6 +5,7 @@ export type DefaultAttributeType =
   | "uuid"
   | "cuid"
   | "dbgenerated"
+  | "now"
   | (string & { zz_ignore_me__?: never });
 
 /**
@@ -22,7 +23,8 @@ export function Default(default_: DefaultAttributeType) {
       default_ === "autoincrement" ||
       default_ === "uuid" ||
       default_ === "cuid" ||
-      default_ === "dbgenerated"
+      default_ === "dbgenerated" ||
+      default_ === "now"
         ? `${default_}()`
         : default_
     })`,
