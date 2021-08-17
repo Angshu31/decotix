@@ -35,7 +35,7 @@ export const buildSchema = async (
       } else {
         try {
           const content = await readFile(pathOrSchema);
-          results.push(content);
+          results.push(content.toString());
         } catch (e) {
           results.push(pathOrSchema);
         }
