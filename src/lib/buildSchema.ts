@@ -26,14 +26,19 @@ export const buildSchema = async (
 
   if (options.baseSchemas)
     for (const pathOrSchema of options.baseSchemas) {
-      if (!isGlob(pathOrSchema)) {
-        results.push(pathOrSchema);
-      } else {
+      if (isGlob(pathOrSchema)) {
         const filenames = await glob(pathOrSchema);
         const contents = await Promise.all(
           filenames.map(async (x) => (await readFile(x)).toString())
         );
         results.push(...contents);
+      } else {
+        try {
+          const content = await readFile(pathOrSchema);
+          results.push(content);
+        } catch (e) {
+          results.push(pathOrSchema);
+        }
       }
     }
 
