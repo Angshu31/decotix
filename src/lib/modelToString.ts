@@ -73,11 +73,23 @@ export const modelToString = (
     }
 
     // Adds the line of prisma code for the field
-    result.push(
-      `  ${name} ${getTypeName(typeClass)}${
-        nullable ? "?" : ""
-      } ${fieldAttributes.map((x) => x.str).join(" ")}`
-    );
+    try {
+      result.push(
+        `  ${name} ${getTypeName(typeClass)}${
+          nullable ? "?" : ""
+        } ${fieldAttributes.map((x) => x.str).join(" ")}`
+      );
+    } catch (e) {
+      throw new TypeError(
+        `The type could not be read for field "${String(
+          name
+        )}" of model "${modelName}"${
+          modelName !== ModelClass.name
+            ? ` (class name: "${ModelClass.name}")`
+            : ""
+        }`
+      );
+    }
 
     // Auto inserting Relational fields (default for option: true)
     if (config.autoInsertRelationalFields ?? true) {
@@ -102,8 +114,23 @@ export const modelToString = (
         const prop = props[i];
         const idx = references.indexOf(prop.name);
 
-        if (idx !== -1)
-          result.push(`${fields[idx]} ${getTypeName(prop.getType())}`);
+        const type = prop.getType();
+        try {
+          if (idx !== -1)
+            result.push(
+              `${fields[idx]} ${getTypeName(type)}${nullable ? "?" : ""}`
+            );
+        } catch (e) {
+          throw new TypeError(
+            `The type could not be read for field "${String(
+              prop.name
+            )}" of model "${modelName}"${
+              modelName !== ModelClass.name
+                ? ` (class name: "${ModelClass.name}")`
+                : ""
+            }`
+          );
+        }
       }
     }
   }
@@ -134,6 +161,10 @@ const getTypeName = (x: Function | object | [Function]) => {
   if (Array.isArray(x)) return `${getTypeName(x[0])}[]`;
 
   const sig = getSignature(x);
+
+  if (typeof x !== "function" && !sig)
+    throw new TypeError(`Cannot get type name of "${String(x)}"`);
+
   return typeof x === "function"
     ? sig?.extraData?.name || x.name
     : sig.extraData.name;

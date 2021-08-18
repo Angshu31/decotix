@@ -29,11 +29,11 @@ export function Property(...args: any[]): PropertyDecorator {
             if (x === Number) return Float;
             if (x === Date) return DateTime;
 
-            if (x == null) {
+            if (x == null || x === Array || typeof x === "object") {
               throw new TypeError(
-                `The types could not be read for ${
-                  target.constructor.name
-                }.${String(name)}`
+                `The type could not be read for field "${String(
+                  name
+                )}" of model "${target.constructor.name}"`
               );
             }
 
