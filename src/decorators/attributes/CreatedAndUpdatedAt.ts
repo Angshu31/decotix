@@ -1,4 +1,5 @@
 import { Attribute } from "./Attribute";
+import { Default } from "./Default";
 
-export const CreatedAt = () => Attribute("@createdAt");
+export const CreatedAt = () => Default("now");
 export const UpdatedAt = () => Attribute("@updatedAt");

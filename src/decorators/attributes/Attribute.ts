@@ -7,7 +7,6 @@ export type _AttributeMetadata = {
 };
 
 export function Attribute(str: string, extraData: any = {}): PropertyDecorator {
-  console.log({ str, extraData });
   return (target, field) => {
     Reflect.defineMetadata(
       _attributeKey,

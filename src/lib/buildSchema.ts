@@ -35,12 +35,8 @@ export const buildSchema = async (
         );
         results.push(...contents);
       } else {
-        try {
-          const content = await readFile(pathOrSchema);
-          results.push(content.toString());
-        } catch (e) {
-          results.push(pathOrSchema);
-        }
+        const content = await readFile(pathOrSchema);
+        results.push(content.toString());
       }
     }
 
