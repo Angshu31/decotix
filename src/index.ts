@@ -8,6 +8,7 @@ export * from "./lib/enum";
 export * from "./lib/registerType";
 
 export * from "./decorators/Model";
+export * from "./decorators/MongoDB";
 export * from "./decorators/Property";
 export * from "./decorators/attributes/Attribute";
 export * from "./decorators/attributes/CreatedAndUpdatedAt";

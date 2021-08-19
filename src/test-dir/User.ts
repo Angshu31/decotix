@@ -3,19 +3,14 @@ import { MongoID } from "../decorators/MongoDB";
 import { UserProfile } from "./Profile";
 
 @Model()
-// @ObjectType()
 export class User {
-  // @Field(() => ID)
   @Property(() => String)
   @MongoID()
   id: string;
 
   // @Field(() => UserProfile)
   @Property(() => UserProfile)
-  @Relation("UserProfileRelation", {
-    fields: ["profileId"],
-    references: ["id"],
-  })
+  @Relation("UserProfileRelation", true)
   profile: UserProfile;
 
   // @Field(() => [User])
