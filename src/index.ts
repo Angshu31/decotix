@@ -5,6 +5,7 @@ export * from "./field-types";
 export * from "./lib/modelToString";
 export * from "./lib/buildSchema";
 export * from "./lib/enum";
+export * from "./lib/registerType";
 
 export * from "./decorators/Model";
 export * from "./decorators/Property";
