@@ -7,7 +7,7 @@ import { MapField } from "./attributes/MapField";
  * Defines an ObjectID
  * ***Only supported in MongoDB***
  */
-export const ObjectID = () => Attribute("@db.ObjectId");
+export const ObjectID = () => Attribute("@db.ObjectId", { type: "objectId" });
 
 /**
  * Defines an id for MongoDB

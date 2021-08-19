@@ -10,6 +10,7 @@ import {
 import { _PropertyMetadata, _propKey } from "../decorators/Property";
 import { BuildSchemaOptions } from "./BuildSchemaOptions";
 import { getSignature } from "./signatures";
+import { getTypeName } from "./getTypeName";
 
 export const modelToString = (
   ModelClass: { new (...args: any[]): any },
@@ -113,12 +114,22 @@ export const modelToString = (
       for (let i = 0; i < props.length; i++) {
         const prop = props[i];
         const idx = references.indexOf(prop.name);
-
         const type = prop.getType();
+
+        const fieldAttributesOfRef: _AttributeMetadata[] =
+          Reflect.getMetadata(_attributeKey, target) ?? [];
+
         try {
           if (idx !== -1)
             result.push(
-              `${fields[idx]} ${getTypeName(type)}${nullable ? "?" : ""}`
+              `${fields[idx]} ${getTypeName(type)}${nullable ? "?" : ""}${
+                fieldAttributesOfRef.find(
+                  (x) =>
+                    x?.field === prop.name && x?.extraData?.type === "objectId"
+                )
+                  ? " @db.ObjectId"
+                  : ""
+              }`
             );
         } catch (e) {
           throw new TypeError(
@@ -155,17 +166,4 @@ export const modelToString = (
   const schema = result.join("\n");
 
   return schema;
-};
-
-const getTypeName = (x: Function | object | [Function]) => {
-  if (Array.isArray(x)) return `${getTypeName(x[0])}[]`;
-
-  const sig = getSignature(x);
-
-  if (typeof x !== "function" && !sig)
-    throw new TypeError(`Cannot get type name of "${String(x)}"`);
-
-  return typeof x === "function"
-    ? sig?.extraData?.name || x.name
-    : sig.extraData.name;
 };

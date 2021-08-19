@@ -1,4 +1,5 @@
 import { Model, Property, Id, Relation } from "..";
+import { MongoID } from "../decorators/MongoDB";
 import { UserProfile } from "./Profile";
 
 @Model()
@@ -6,7 +7,7 @@ import { UserProfile } from "./Profile";
 export class User {
   // @Field(() => ID)
   @Property(() => String)
-  @Id("uuid")
+  @MongoID()
   id: string;
 
   // @Field(() => UserProfile)
@@ -17,18 +18,6 @@ export class User {
   })
   profile: UserProfile;
 
-  // TODO: Add Project relation
-  ownedProjects: any[];
-
-  // TODO: Add ProjectMember relation
-  allProjects: any[];
-
-  // TODO: Add Liked Projects relation
-  likedProjects: any[];
-
-  // TODO: Add Followed Projects relation
-  followedProjects: any[];
-
   // @Field(() => [User])
   @Relation("UserFollowRelation", { references: ["id"] })
   @Property(() => [User])
@@ -38,10 +27,4 @@ export class User {
   @Relation("UserFollowRelation", { references: ["id"] })
   @Property(() => [User])
   followers: User[];
-
-  // TODO: Add Post relationships
-  posts: any[];
-  likedPosts: any[];
-  likedComments: any[];
-  viewablePosts: any[];
 }

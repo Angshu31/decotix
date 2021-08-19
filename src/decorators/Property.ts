@@ -1,4 +1,5 @@
 import { DateTime, Float } from "../field-types";
+import { getTypeName } from "../lib/getTypeName";
 
 export const _propKey = Symbol("prisma-model-props");
 
@@ -29,7 +30,9 @@ export function Property(...args: any[]): PropertyDecorator {
             if (x === Number) return Float;
             if (x === Date) return DateTime;
 
-            if (x == null || x === Array || typeof x === "object") {
+            try {
+              getTypeName(x);
+            } catch (e) {
               throw new TypeError(
                 `The type could not be read for field "${String(
                   name

@@ -1,4 +1,5 @@
 import { Model, Property, Id, Relation } from "..";
+import { MongoID } from "../decorators/MongoDB";
 import { User } from "./User";
 
 @Model()
@@ -6,7 +7,7 @@ import { User } from "./User";
 export class UserProfile {
   // @Field(() => ID)
   @Property()
-  @Id("uuid")
+  @MongoID()
   id: string;
 
   // @Field(() => User)
@@ -15,6 +16,6 @@ export class UserProfile {
   user: User;
 
   @Relation("x", true)
-  @Property()
+  @Property(() => User)
   x: User;
 }
