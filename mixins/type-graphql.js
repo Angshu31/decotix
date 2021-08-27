@@ -1,4 +1,4 @@
-import { registerType } from "../lib/registerType";
+const { registerType } = require("../dist/lib/registerType");
 
 const { Int, Float } = require("type-graphql");
 
