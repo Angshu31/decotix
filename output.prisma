@@ -10,16 +10,18 @@ enum FavFood {
 
 model UserProfile {
   id   String @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  user User?  @relation("UserProfileRelation")
-  x    User   @relation("x", fields: [xId], references: [id])
+  user UsEr?  @relation("UserProfileRelation")
+  x    UsEr   @relation("x", fields: [xId], references: [id])
   xId  String @db.ObjectId
 }
 
-model User {
+model UsEr {
+  y           String
+  x           String
   id          String        @id @default(dbgenerated()) @map("_id") @db.ObjectId
   profile     UserProfile   @relation("UserProfileRelation", fields: [profileId], references: [id])
   profileId   String        @db.ObjectId
-  following   User[]        @relation("UserFollowRelation", references: [id])
-  followers   User[]        @relation("UserFollowRelation", references: [id])
+  following   UsEr[]        @relation("UserFollowRelation", references: [id])
+  followers   UsEr[]        @relation("UserFollowRelation", references: [id])
   UserProfile UserProfile[] @relation("x")
 }

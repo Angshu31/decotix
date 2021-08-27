@@ -19,7 +19,9 @@ export const buildSchema = async (
   const results = [];
 
   const useClass = (struct: any, sig: _Signature) => {
-    if (sig.type === "model") results.push(modelToString(struct, options));
+    if (sig.type === "model" && !sig.extraData.options?.isAbstract) {
+      results.push(modelToString(struct, options));
+    }
     if (sig.type === "enum") results.push(enumToString(struct, sig));
     if (sig.type === "datasource")
       results.push(datasourceToString(struct, sig));

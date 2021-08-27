@@ -2,8 +2,20 @@ import { Model, Property, Id, Relation } from "..";
 import { MongoID } from "../decorators/MongoDB";
 import { UserProfile } from "./Profile";
 
-@Model()
-export class User {
+@Model({ isAbstract: true })
+export class BaseA {
+  @Property()
+  y: string;
+}
+
+@Model({ isAbstract: true })
+export class BaseB extends BaseA {
+  @Property()
+  x: string;
+}
+
+@Model("UsEr")
+export class User extends BaseB {
   @Property(() => String)
   @MongoID()
   id: string;
