@@ -1,8 +1,8 @@
-import { registerEnums } from "../lib/enum";
+import { createEnum, EnumValues } from "../lib/enum";
 
-export enum FavFood {
-  BANANA = "b",
-  APPLE = "a",
-}
+export const FavFood = createEnum("FavFood", {
+  apple: "APPLE",
+  banana: "BANANA",
+});
 
-registerEnums({ FavFood });
+export type FavFood = EnumValues<typeof FavFood>;

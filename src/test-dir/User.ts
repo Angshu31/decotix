@@ -22,7 +22,7 @@ export class User extends BaseB {
 
   // @Field(() => UserProfile)
   @Property(() => UserProfile)
-  @Relation("UserProfileRelation", true)
+  @Relation<UserProfile>("UserProfileRelation", ["id"])
   profile: UserProfile;
 
   // @Field(() => [User])

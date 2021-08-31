@@ -1,5 +1,6 @@
 import { Model, Property, Id, Relation } from "..";
 import { MongoID } from "../decorators/MongoDB";
+import { FavFood } from "./FavFood";
 import { User } from "./User";
 
 @Model()
@@ -18,4 +19,7 @@ export class UserProfile {
   @Relation("x", true)
   @Property(() => User)
   x: User;
+
+  @Property(() => FavFood)
+  favFood: FavFood;
 }
