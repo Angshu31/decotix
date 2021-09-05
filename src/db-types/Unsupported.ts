@@ -1,3 +1,5 @@
+import { registerType } from "../lib/registerType";
+
 type UnsupportedNativeTypes =
   | "interval"
   | "cidr"
@@ -36,6 +38,7 @@ type UnsupportedNativeTypes =
  * regardless (opening an issue about it would also be appreciated).
  */
 export const Unsupported = (type: UnsupportedNativeTypes | (string & {})) => {
-  const name = `Unsupported("${type}")`;
-  return { [name]() {} }[name];
+  const o = {};
+  registerType(o, `Unsupported("${type}")`);
+  return o;
 };

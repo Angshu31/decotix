@@ -1,7 +1,5 @@
-import { applySignature } from "./signatures";
+export const _registeredTypeKey = Symbol("__decotix_registed_type__");
 
-/**
- * Registers a type: This allows you to associate any object or function with a prisma type.
- */
-export const registerType = (obj: any, name: string) =>
-  applySignature(obj, name, { name });
+export const registerType = (obj: any, typeName: string) => {
+  Reflect.defineMetadata(_registeredTypeKey, typeName, obj);
+};

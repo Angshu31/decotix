@@ -1,12 +1,7 @@
+import { PropertyDecoratorWrapper } from "../PropertyDecorator";
 import { Attribute } from "./Attribute";
-import { Default, DefaultAttributeType } from "./Default";
 
-export const Id =
-  (default_?: DefaultAttributeType): PropertyDecorator =>
-  (a, b) => {
-    Attribute("@id", { type: "id" })(a, b);
-
-    if (default_ != null) {
-      Default(default_)(a, b);
-    }
-  };
+export const Id = (): PropertyDecorator =>
+  Attribute(1, () => ({
+    name: "id",
+  }));

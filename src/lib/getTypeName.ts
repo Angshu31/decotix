@@ -1,14 +1,19 @@
-import { getSignature } from "./signatures";
+import { _registeredTypeKey } from "./registerType";
 
-export const getTypeName = (x: Function | object | [Function]) => {
-  if (Array.isArray(x)) return `${getTypeName(x[0])}[]`;
+export const getTypeName = (obj: Function | object): string => {
+  let name = "";
 
-  const sig = getSignature(x);
+  try {
+    name = Reflect.getMetadata(_registeredTypeKey, obj);
+  } catch (e) {}
 
-  if (typeof x !== "function" && !sig)
-    throw new TypeError(`Cannot get type name of "${String(x)}"`);
+  if (!name || typeof name !== "string") {
+    throw new TypeError(
+      `${
+        typeof obj === "function" ? `[Function: ${obj.name}]` : obj
+      } is not a valid type, model, enum, datasource or generator.`
+    );
+  }
 
-  return typeof x === "function"
-    ? sig?.extraData?.name || x.name
-    : sig.extraData.name;
+  return name;
 };

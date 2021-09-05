@@ -1,37 +1,19 @@
-import { Model, Property, Id, Relation } from "..";
-import { MongoID } from "../decorators/MongoDB";
-import { UserProfile } from "./Profile";
+import { Id } from "../decorators/attributes/Id";
+import { MapField } from "../decorators/attributes/MapField";
+import { MultiFieldId } from "../decorators/block-attributes/MultiFieldId";
+import { Model } from "../decorators/Model";
+import { Property } from "../decorators/Property";
 
-@Model({ isAbstract: true })
-export class BaseA {
+@Model()
+@MultiFieldId(["id", "id2"])
+export class User {
   @Property()
-  y: string;
-}
-
-@Model({ isAbstract: true })
-export class BaseB extends BaseA {
-  @Property()
-  x: string;
-}
-
-@Model("UsEr")
-export class User extends BaseB {
-  @Property(() => String)
-  @MongoID()
   id: string;
 
-  // @Field(() => UserProfile)
-  @Property(() => UserProfile)
-  @Relation<UserProfile>("UserProfileRelation", ["id"])
-  profile: UserProfile;
+  @Property()
+  id2: string;
 
-  // @Field(() => [User])
-  @Relation("UserFollowRelation", { references: ["id"] })
-  @Property(() => [User])
-  following: User[];
-
-  // @Field(() => [User])
-  @Relation("UserFollowRelation", { references: ["id"] })
-  @Property(() => [User])
-  followers: User[];
+  @Property()
+  @MapField("somefloat2")
+  somefloat: number;
 }

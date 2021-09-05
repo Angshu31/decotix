@@ -1,58 +1,51 @@
-import { DateTime, Float } from "../field-types";
+import { DateTime, Float } from "../db-types";
 import { getTypeName } from "../lib/getTypeName";
-
-export const _propKey = Symbol("prisma-model-props");
+import { ReturnTypeFunc } from "../types/ReturnTypeFunc";
+import { PropertyDecoratorWrapper } from "./PropertyDecorator";
 
 export type PropertyOptions = { nullable?: boolean };
 
-export type GetType = () => Function | object;
-
-export type _PropertyMetadata = {
-  name: string;
-  nullable: boolean;
-  getType: GetType;
-};
-
-export function Property(): PropertyDecorator;
-export function Property(getType: GetType): PropertyDecorator;
-export function Property(options: PropertyOptions): PropertyDecorator;
+export function Property(returnTypeFunc?: ReturnTypeFunc): PropertyDecorator;
+export function Property(options?: PropertyOptions): PropertyDecorator;
 export function Property(
-  getType: GetType,
-  options: PropertyOptions
+  returnTypeFunc?: ReturnTypeFunc,
+  options?: PropertyOptions
 ): PropertyDecorator;
+
 export function Property(...args: any[]): PropertyDecorator {
-  return (target, name) => {
-    const getType =
-      typeof args[0] === "function"
-        ? args[0]
-        : () => {
-            const x = Reflect.getMetadata("design:type", target, name);
-            if (x === Number) return Float;
-            if (x === Date) return DateTime;
+  let arg0 = args[0];
+  let returnTypeFunc = typeof arg0 === "function" ? arg0 : null;
+  let options: PropertyOptions = (returnTypeFunc ? args[1] : arg0) || {};
 
-            try {
-              getTypeName(x);
-            } catch (e) {
-              throw new TypeError(
-                `The type could not be read for field "${String(
-                  name
-                )}" of model "${target.constructor.name}"`
-              );
-            }
+  return (target, propKey) => {
+    const name = String(propKey);
 
-            return x;
-          };
+    if (!returnTypeFunc) {
+      returnTypeFunc = () => {
+        const x = Reflect.getMetadata("design:type", target, propKey);
 
-    const { nullable = false }: PropertyOptions =
-      typeof args[0] === "object" ? args[0] : args[1] ?? {};
+        if (x === Number) return Float;
+        if (x === Date) return DateTime;
 
-    Reflect.defineMetadata(
-      _propKey,
-      [
-        ...(Reflect.getMetadata(_propKey, target) || []),
-        { name: String(name), nullable, getType },
-      ],
-      target
-    );
+        if (!x || x === Object || x === Array) {
+          throw new TypeError(
+            `Could not get type for field "${name}" of model ${getTypeName(
+              target.constructor
+            )}`
+          );
+        }
+
+        return x;
+      };
+    }
+
+    PropertyDecoratorWrapper(target.constructor, 0, (data) => {
+      data.properties.set(name, {
+        name,
+        type: getTypeName(returnTypeFunc()),
+        attributes: [],
+        nullable: options.nullable,
+      });
+    });
   };
 }

@@ -321,15 +321,16 @@ export function NativeType(typeName: "DateTimeOffset"): PropertyDecorator;
  *   - SQL Server (Preview)
  */
 export function NativeType(typeName: "Image"): PropertyDecorator;
+/**
+ *  Supported By:
+ *   - MongoDB (Preview)
+ */
+export function NativeType(typeName: "Array", of: string): PropertyDecorator;
 
 export function NativeType(typeName: string, ...args: any[]): PropertyDecorator;
 export function NativeType(typeName: any, ...args: any[]): PropertyDecorator {
-  return Attribute(
-    `@db.${typeName}` +
-      (args.length
-        ? `(${args
-            .map((x) => (typeof x === "string" ? `"${x}"` : x))
-            .join(", ")})`
-        : "")
-  );
+  return Attribute(1, () => ({
+    name: "db." + typeName + (typeName === "Array" ? `(${args[0]})` : ""),
+    args: typeName === "Array" ? null : args,
+  }));
 }

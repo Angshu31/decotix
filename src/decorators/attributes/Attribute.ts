@@ -1,20 +1,20 @@
-export const _attributeKey = Symbol("prisma-attribute");
+import { PropertyAttributeData } from "../../types/ModelData";
+import { PropertyDecoratorWrapper } from "../PropertyDecorator";
 
-export type _AttributeMetadata = {
-  field: string;
-  str: string;
-  extraData?: { type?: string };
-};
-
-export function Attribute(str: string, extraData: any = {}): PropertyDecorator {
-  return (target, field) => {
-    Reflect.defineMetadata(
-      _attributeKey,
-      [
-        ...(Reflect.getMetadata(_attributeKey, target) || []),
-        { field, str, extraData },
-      ],
-      target
-    );
+export const Attribute = (
+  priority: number,
+  func: (obj: {
+    propKey: string | symbol;
+    target: any;
+    propName: string;
+  }) => PropertyAttributeData
+): PropertyDecorator => {
+  return (target, propKey) => {
+    PropertyDecoratorWrapper(target.constructor, priority, (data) => {
+      const propName = String(propKey);
+      data.properties
+        .get(propName)
+        .attributes.push(func({ propKey, target, propName }));
+    });
   };
-}
+};

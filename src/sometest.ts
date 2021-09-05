@@ -1,5 +1,6 @@
+import "reflect-metadata";
 import { join } from "path";
-import { buildSchema } from ".";
+import { buildSchema } from "./lib/buildSchema";
 
 (async () => {
   await buildSchema({
