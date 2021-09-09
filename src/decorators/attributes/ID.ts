@@ -1,5 +1,11 @@
-import { PropertyDecoratorWrapper } from "../PropertyDecorator";
-import { Attribute } from "./Attribute";
+import { Default, DefaultAttributeType } from ".";
 import { CustomAttribute } from "./CustomAttribute";
 
-export const Id = () => CustomAttribute("id");
+export const Id =
+  (_default?: DefaultAttributeType): PropertyDecorator =>
+  (a, b) => {
+    CustomAttribute("id")(a, b);
+    if (_default !== undefined) {
+      Default(_default)(a, b);
+    }
+  };

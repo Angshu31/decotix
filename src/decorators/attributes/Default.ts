@@ -1,5 +1,4 @@
 import { PriorityLevels } from "../../lib/PriorityLevels";
-import { PropertyDecoratorWrapper } from "../PropertyDecorator";
 import { Attribute } from "./Attribute";
 
 export type DefaultAttributeType =

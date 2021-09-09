@@ -1,5 +1,4 @@
 import { createRelationDecorator } from "./common";
-import { OneToOne } from "./OneToOne";
 
 export const OneToMany = createRelationDecorator(() => {
   throw new Error(

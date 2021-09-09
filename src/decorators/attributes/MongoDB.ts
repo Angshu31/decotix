@@ -1,4 +1,3 @@
-import { Attribute } from "./Attribute";
 import { CustomAttribute } from "./CustomAttribute";
 import { Default } from "./Default";
 import { Id } from "./Id";

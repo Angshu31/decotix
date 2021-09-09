@@ -5,7 +5,6 @@ import {
   PropertyAttributeData,
   PropertyData,
 } from "../../../types/ModelData";
-import { ReturnTypeFunc } from "../../../types/ReturnTypeFunc";
 import { _modelKey } from "../../Model";
 import { PropertyDecoratorWrapper } from "../../PropertyDecorator";
 

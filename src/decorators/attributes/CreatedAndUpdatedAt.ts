@@ -1,5 +1,3 @@
-import { PriorityLevels } from "../../lib/PriorityLevels";
-import { Attribute } from "./Attribute";
 import { CustomAttribute } from "./CustomAttribute";
 import { Default } from "./Default";
 

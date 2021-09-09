@@ -33,7 +33,8 @@ export const buildSchema = async (options: BuildSchemaOptions) => {
   const useStringifier = (obj: any) => {
     const stringifier = getStringifier(obj);
 
-    if (stringifier) results.push(stringifier(obj, allLoadedPromise));
+    if (stringifier)
+      results.push(stringifier({ obj, allLoadedPromise, options }));
   };
   for (const filenameOrModelClass of options.input) {
     if (typeof filenameOrModelClass === "function") {

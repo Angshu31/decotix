@@ -1,8 +1,12 @@
+import { Stringifier } from ".";
 import { _modelKey } from "../../decorators/Model";
 import { _effects_key } from "../../decorators/PropertyDecorator";
 import { ModelData } from "../../types/ModelData";
 
-export async function ModelStringifier(Target: any, allLoaded: Promise<void>) {
+export const ModelStringifier: Stringifier = async ({
+  obj: Target,
+  allLoadedPromise,
+}) => {
   let res = "";
 
   const data = Reflect.getMetadata(_modelKey, Target) as ModelData;
@@ -20,7 +24,7 @@ export async function ModelStringifier(Target: any, allLoaded: Promise<void>) {
       }
   }
 
-  await allLoaded;
+  await allLoadedPromise;
 
   if (effects[-1]) {
     for (const effect of effects[-1]) effect(data);
@@ -51,7 +55,7 @@ export async function ModelStringifier(Target: any, allLoaded: Promise<void>) {
   res += "}";
 
   return res;
-}
+};
 
 const argToString = (arg: any) => {
   if (typeof arg === "string") return `"${arg}"`;
