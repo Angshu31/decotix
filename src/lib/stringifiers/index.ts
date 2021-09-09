@@ -1,4 +1,4 @@
-import { BuildSchemaOptions } from "../..";
+import { BuildSchemaOptions } from "../../types/BuildSchemaOptions";
 
 export const _stringifier_key = Symbol("__stringifier_key__");
 

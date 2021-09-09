@@ -5,6 +5,8 @@ import { promisify } from "util";
 import { BuildSchemaOptions } from "../../types/BuildSchemaOptions";
 import { getStringifier } from "../stringifiers";
 
+export { BuildSchemaOptions };
+
 const glob = promisify(_glob);
 
 export const buildSchema = async (options: BuildSchemaOptions) => {
