@@ -1,4 +1,4 @@
-import { attachStringifier } from ".";
+import { attachStringifier, Stringifier } from ".";
 import { registerType } from "../registerType";
 
 export const _enumKey = Symbol("__decotix_enum_key__");
@@ -34,7 +34,7 @@ export function createEnum(...args: any[]) {
   return _enum;
 }
 
-export const EnumStringifier = async (theEnum: any) => {
+export const EnumStringifier: Stringifier = async ({ obj: theEnum }) => {
   const name = Reflect.getMetadata(_enumKey, theEnum);
 
   // Cut out numeric values (from numeric enums)
