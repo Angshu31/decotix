@@ -1,3 +1,7 @@
 node_modules
 output.prisma
 src
+dist/types
+dist/test-dir
+dist/sometest.d.ts
+dist/sometest.js

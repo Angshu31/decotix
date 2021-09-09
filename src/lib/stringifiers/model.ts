@@ -2,7 +2,7 @@ import { _modelKey } from "../../decorators/Model";
 import { _effects_key } from "../../decorators/PropertyDecorator";
 import { ModelData } from "../../types/ModelData";
 
-export function ModelStringifier(Target: any) {
+export async function ModelStringifier(Target: any, allLoaded: Promise<void>) {
   let res = "";
 
   const data = Reflect.getMetadata(_modelKey, Target) as ModelData;
@@ -14,9 +14,16 @@ export function ModelStringifier(Target: any) {
   const effects = Reflect.getMetadata(_effects_key, Target);
 
   for (const priorityLevel of effects) {
-    for (const effect of priorityLevel) {
-      effect(data);
-    }
+    if (priorityLevel)
+      for (const effect of priorityLevel) {
+        effect(data);
+      }
+  }
+
+  await allLoaded;
+
+  if (effects[-1]) {
+    for (const effect of effects[-1]) effect(data);
   }
 
   res += `model ${data.name} {\n`;
@@ -37,8 +44,6 @@ export function ModelStringifier(Target: any) {
     res += "\n";
   }
 
-  res += "\n";
-
   for (const blockAttr of data.blockAttributes) {
     res += `@@${blockAttr.name}([${blockAttr.fields.join(", ")}])\n`;
   }
@@ -50,7 +55,7 @@ export function ModelStringifier(Target: any) {
 
 const argToString = (arg: any) => {
   if (typeof arg === "string") return `"${arg}"`;
-  if (Array.isArray(arg)) return `[${arg.map(argToString)}]`;
+  if (Array.isArray(arg)) return `[${arg.join(", ")}]`;
   if (typeof arg === "object")
     return Object.keys(arg)
       .map((key) => `${key}: ${argToString(arg[key])}`)

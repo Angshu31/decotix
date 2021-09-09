@@ -1,7 +1,5 @@
 import { PropertyDecoratorWrapper } from "../PropertyDecorator";
 import { Attribute } from "./Attribute";
+import { CustomAttribute } from "./CustomAttribute";
 
-export const Id = (): PropertyDecorator =>
-  Attribute(1, () => ({
-    name: "id",
-  }));
+export const Id = () => CustomAttribute("id");

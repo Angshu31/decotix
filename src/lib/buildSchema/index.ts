@@ -8,7 +8,12 @@ import { getStringifier } from "../stringifiers";
 const glob = promisify(_glob);
 
 export const buildSchema = async (options: BuildSchemaOptions) => {
-  const results = [];
+  let results = [];
+
+  let fireAllLoaded: () => void;
+  const allLoadedPromise = new Promise(
+    (resolve) => (fireAllLoaded = () => resolve(1))
+  );
 
   // Add baseSchemas
   if (options.baseSchemas)
@@ -28,7 +33,7 @@ export const buildSchema = async (options: BuildSchemaOptions) => {
   const useStringifier = (obj: any) => {
     const stringifier = getStringifier(obj);
 
-    if (stringifier) results.push(stringifier(obj));
+    if (stringifier) results.push(stringifier(obj, allLoadedPromise));
   };
   for (const filenameOrModelClass of options.input) {
     if (typeof filenameOrModelClass === "function") {
@@ -46,6 +51,9 @@ export const buildSchema = async (options: BuildSchemaOptions) => {
       }
     }
   }
+
+  fireAllLoaded();
+  results = await Promise.all(results);
 
   if (!results.length) {
     throw new TypeError(

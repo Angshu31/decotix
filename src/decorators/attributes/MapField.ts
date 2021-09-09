@@ -1,4 +1,8 @@
+import { PriorityLevels } from "../../lib/PriorityLevels";
 import { Attribute } from "./Attribute";
 
 export const MapField = (field: string) =>
-  Attribute(1, () => ({ name: "map", args: [field] }));
+  Attribute(PriorityLevels.afterProperties, () => ({
+    name: "map",
+    args: [field],
+  }));

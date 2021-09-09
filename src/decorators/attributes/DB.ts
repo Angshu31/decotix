@@ -1,3 +1,4 @@
+import { PriorityLevels } from "../../lib/PriorityLevels";
 import { Attribute } from "./Attribute";
 
 /**
@@ -329,7 +330,7 @@ export function NativeType(typeName: "Array", of: string): PropertyDecorator;
 
 export function NativeType(typeName: string, ...args: any[]): PropertyDecorator;
 export function NativeType(typeName: any, ...args: any[]): PropertyDecorator {
-  return Attribute(1, () => ({
+  return Attribute(PriorityLevels.afterProperties, () => ({
     name: "db." + typeName + (typeName === "Array" ? `(${args[0]})` : ""),
     args: typeName === "Array" ? null : args,
   }));

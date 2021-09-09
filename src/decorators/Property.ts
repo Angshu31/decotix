@@ -1,5 +1,6 @@
 import { DateTime, Float } from "../db-types";
 import { getTypeName } from "../lib/getTypeName";
+import { PriorityLevels } from "../lib/PriorityLevels";
 import { ReturnTypeFunc } from "../types/ReturnTypeFunc";
 import { PropertyDecoratorWrapper } from "./PropertyDecorator";
 
@@ -39,13 +40,17 @@ export function Property(...args: any[]): PropertyDecorator {
       };
     }
 
-    PropertyDecoratorWrapper(target.constructor, 0, (data) => {
-      data.properties.set(name, {
-        name,
-        type: getTypeName(returnTypeFunc()),
-        attributes: [],
-        nullable: options.nullable,
-      });
-    });
+    PropertyDecoratorWrapper(
+      target.constructor,
+      PriorityLevels.initProperties,
+      (data) => {
+        data.properties.set(name, {
+          name,
+          type: getTypeName(returnTypeFunc()),
+          attributes: [],
+          nullable: options.nullable,
+        });
+      }
+    );
   };
 }

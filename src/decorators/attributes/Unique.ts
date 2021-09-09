@@ -1,3 +1,4 @@
 import { Attribute } from "./Attribute";
+import { CustomAttribute } from "./CustomAttribute";
 
-export const Unique = () => Attribute(1, () => ({ name: "unique" }));
+export const Unique = () => CustomAttribute("unique");

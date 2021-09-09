@@ -1,3 +1,5 @@
+import { PriorityLevels } from "../../lib/PriorityLevels";
 import { Attribute } from "./Attribute";
 
-export const CustomAttribute = (name: string) => Attribute(1, () => ({ name }));
+export const CustomAttribute = (name: string) =>
+  Attribute(PriorityLevels.afterProperties, () => ({ name }));

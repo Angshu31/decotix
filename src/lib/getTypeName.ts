@@ -1,6 +1,8 @@
 import { _registeredTypeKey } from "./registerType";
 
 export const getTypeName = (obj: Function | object): string => {
+  if (Array.isArray(obj)) return getTypeName(obj[0]) + "[]";
+
   let name = "";
 
   try {
@@ -11,7 +13,7 @@ export const getTypeName = (obj: Function | object): string => {
     throw new TypeError(
       `${
         typeof obj === "function" ? `[Function: ${obj.name}]` : obj
-      } is not a valid type, model, enum, datasource or generator.`
+      } is not a valid type, model or enum.`
     );
   }
 

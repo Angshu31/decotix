@@ -1,3 +1,4 @@
+import { PriorityLevels } from "../../lib/PriorityLevels";
 import { PropertyDecoratorWrapper } from "../PropertyDecorator";
 import { Attribute } from "./Attribute";
 
@@ -10,7 +11,7 @@ export type DefaultAttributeType =
   | (string & {});
 
 export const Default = (default_: DefaultAttributeType) =>
-  Attribute(1, () => ({
+  Attribute(PriorityLevels.afterProperties, () => ({
     name: "default",
     args: [
       default_ === "autoincrement" ||
