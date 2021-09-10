@@ -41,7 +41,10 @@ export const ModelStringifier: Stringifier = async ({
       for (const attr of prop.attributes) {
         res += "@" + attr.name;
 
-        if (attr.args?.length) res += `(${attr.args.map(argToString)})`;
+        if (attr.args?.length)
+          res += `(${
+            attr.noArgEncode ? attr.args : attr.args.map(argToString)
+          })`;
       }
     }
 

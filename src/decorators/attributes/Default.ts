@@ -9,8 +9,8 @@ export type DefaultAttributeType =
   | "now"
   | (string & {});
 
-export const Default = (default_: DefaultAttributeType) =>
-  Attribute(PriorityLevels.afterProperties, () => ({
+export const Default = (default_: DefaultAttributeType) => {
+  return Attribute(PriorityLevels.afterProperties, () => ({
     name: "default",
     args: [
       default_ === "autoincrement" ||
@@ -21,4 +21,6 @@ export const Default = (default_: DefaultAttributeType) =>
         ? `${default_}()`
         : default_,
     ],
+    noArgEncode: true,
   }));
+};

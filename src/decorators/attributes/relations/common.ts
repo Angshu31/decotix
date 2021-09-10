@@ -89,7 +89,10 @@ export const createRelationDecorator = (
             return;
           }
 
-          if (ifNotInverse) ifNotInverse(thisProperty);
+          if (ifNotInverse) {
+            ifNotInverse(thisProperty);
+            return;
+          }
 
           const relationName = `${data.name}_${propName}`;
 

@@ -6,6 +6,7 @@ export type BlockAttributeData = {
 export type PropertyAttributeData = {
   name: string;
   args?: (string | object)[];
+  noArgEncode?: boolean;
 };
 
 export type PropertyData = {

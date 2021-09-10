@@ -1,6 +1,6 @@
 {
   "name": "decotix",
-  "version": "2.1.6",
+  "version": "2.1.20",
   "description": "A decorator-focused typescript client for the Prisma schema file",
   "main": "dist/index.js",
   "scripts": {
