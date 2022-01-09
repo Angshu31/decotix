@@ -10,14 +10,13 @@ export const getPrimaryProperties = (data: ModelData) => {
     }
   }
 
-  if (!best) {
+  if (!best)
     for (const blockAttr of data.blockAttributes) {
       if (blockAttr.name === "id") return blockAttr.fields;
       if (blockAttr.name === "unique") {
         best = blockAttr.fields;
       }
     }
-  }
 
   if (!best)
     throw new TypeError(

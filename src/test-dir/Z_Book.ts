@@ -15,6 +15,6 @@ export class Book {
   @Id()
   id: string;
 
-  @ManyToOne(() => User, (user) => user.books)
-  author: User;
+  @ManyToMany(() => User, (user) => user.books)
+  authors: User[];
 }

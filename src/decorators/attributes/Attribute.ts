@@ -12,9 +12,14 @@ export const Attribute = (
   return (target, propKey) => {
     PropertyDecoratorWrapper(target.constructor, priority, (data) => {
       const propName = String(propKey);
-      data.properties
-        .get(propName)
-        .attributes.push(func({ propKey, target, propName }));
+      const property = data.properties.get(propName);
+
+      if (!property)
+        throw new Error(
+          `You are trying to put an attribute on a non-existent property (${propName} in ${data.name})`
+        );
+
+      property.attributes.push(func({ propKey, target, propName }));
     });
   };
 };

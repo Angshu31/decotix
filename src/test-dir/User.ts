@@ -4,7 +4,7 @@ import { Model } from "../decorators/Model";
 import { Property } from "../decorators/Property";
 import { Book } from "./Z_Book";
 import { Role } from "./Role";
-import { OneToOne } from "..";
+import { ManyToMany, OneToOne } from "..";
 
 @Model()
 export class User {
@@ -12,7 +12,7 @@ export class User {
   @Id()
   id: string;
 
-  @OneToMany(() => Book, (book) => book.author)
+  @ManyToMany(() => Book, (book) => book.authors)
   books: Book[];
 
   @Property(() => Role)
