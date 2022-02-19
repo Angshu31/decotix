@@ -24,7 +24,7 @@ export function createEnum(...args: any[]) {
   }
 
   if (typeof name !== "string")
-    throw new TypeError(`Enum got a non-string name: ${name}`);
+    throw new TypeError(`Enum has a non-string name: ${name}`);
 
   Reflect.defineMetadata(_enumKey, name, _enum);
 

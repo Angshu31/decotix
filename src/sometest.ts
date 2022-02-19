@@ -8,6 +8,6 @@ import { buildSchema } from "./lib/buildSchema";
     // baseSchemas: ["C:\\Users\\ongsh\\hydralite\\api\\*.prisma"],
     input: [join(__dirname, "test-dir/**/*.*")],
     emitTo: join(__dirname, "../output.prisma"),
-    prettify: false,
+    prettify: true,
   });
 })();
